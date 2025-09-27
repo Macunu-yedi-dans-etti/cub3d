@@ -108,6 +108,10 @@ int		parse_map(char *filename, t_game *game);
 int		validate_map(t_game *game);
 void	find_player_position(t_game *game);
 
+
+
+int file_control(char *file_path, int fd);
+void    free_split(char **arr);
 void	ft_error(const char *message);
 
 #endif

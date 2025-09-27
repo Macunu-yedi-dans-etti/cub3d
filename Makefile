@@ -1,35 +1,44 @@
-NAME = fractol
 
-SRCS = 
-OBJS = $(SRCS:.c=.o)
-
-MINI = minilibx-linux/libmlx.a
-LIBFT_DIR = includes/libft
-LIBFT = $(LIBFT_DIR)/libft.a
+NAME = cub3d
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
+MLX_FLAGS = -lm -lmlx -lXext -lX11
+
+LIBFT_PATH = includes/libft/
+MLX_PATH = minilibx-linux/
+LIBFT = $(LIBFT_PATH)libft.a
+MLX = $(MLX_PATH)libmlx.a
+
+SRC = cub3d.c source/map/parse_map.c source/map/check_the_map.c source/ft_error.c source/map/free_split.c source/file/file_control.c \
+	includes/get_next_line/get_next_line.c includes/get_next_line/get_next_line_utils.c
+
+
+
+OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(MINI)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MINI) -L/usr/lib -lGL -lXext -lX11 -lm -lbsd -o $(NAME)
+$(NAME): $(OBJ) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT_PATH) -lft -L$(MLX_PATH) $(MLX_FLAGS) -o $(NAME)
+
+$(MLX):
+	@make -C $(MLX_PATH)
 
 $(LIBFT):
-	@make -C $(LIBFT_DIR)
+	@make -C $(LIBFT_PATH)
 
-$(MINI):
-	@make -C minilibx-linux
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -f $(OBJS)
-	@make clean -C $(LIBFT_DIR)
-	@make clean -C minilibx-linux
+	@make clean -C $(LIBFT_PATH)
+	rm -rf $(OBJ)
+	@make clean -C $(MLX_PATH)
 
 fclean: clean
-	@rm -f $(NAME)
-	@make fclean -C $(LIBFT_DIR)
-	@make fclean -C minilibx-linux
+	rm -rf $(NAME)
+	@make fclean -C $(LIBFT_PATH)
 
 re: fclean all
 
