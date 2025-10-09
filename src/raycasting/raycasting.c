@@ -6,7 +6,7 @@
 /*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:51 by haloztur          #+#    #+#             */
-/*   Updated: 2025/10/09 16:55:40 by haloztur         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:17:23 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ void	perform_dda(t_game *game, t_ray *ray)
 	}
 }
 
-void	calculate_wall_height(t_ray *ray)
+void	calculate_wall_height(t_game *game, t_ray *ray)
 {
 	if (ray->side == 0)
-		ray->perp_wall_dist = (ray->map_x - ray->map_x + (1 - ray->step_x) / 2)
+		ray->perp_wall_dist = (ray->map_x - game->player.x + (1 - ray->step_x) / 2)
 			/ ray->ray_dir_x;
 	else
-		ray->perp_wall_dist = (ray->map_y - ray->map_y + (1 - ray->step_y) / 2)
+		ray->perp_wall_dist = (ray->map_y - game->player.y + (1 - ray->step_y) / 2)
 			/ ray->ray_dir_y;
 	ray->line_height = (int)(WIN_HEIGHT / ray->perp_wall_dist);
 	ray->draw_start = -ray->line_height / 2 + WIN_HEIGHT / 2;
@@ -137,7 +137,7 @@ void	raycast(t_game *game)
 	{
 		init_ray(game, &ray, x);
 		perform_dda(game, &ray);
-		calculate_wall_height(&ray);
+		calculate_wall_height(game, &ray);
 		draw_walls(game, &ray, x);
 		x++;
 	}

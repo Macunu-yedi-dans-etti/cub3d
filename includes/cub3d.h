@@ -183,7 +183,7 @@ void	find_player_position(t_game *game);
 void	raycast(t_game *game);
 void	init_ray(t_game *game, t_ray *ray, int x);
 void	perform_dda(t_game *game, t_ray *ray);
-void	calculate_wall_height(t_ray *ray);
+void	calculate_wall_height(t_game *game, t_ray *ray);
 
 void	render_frame(t_game *game);
 void	draw_background(t_game *game);
