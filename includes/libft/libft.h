@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 14:16:08 by haloztur          #+#    #+#             */
-/*   Updated: 2025/07/19 22:11:07 by haloztur         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:09:25 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(const char *s, unsigned int start, size_t len);
 int		ft_tolower(int str);
 int		ft_toupper(int str);
+int		ft_strcmp(const char *s1, const char *s2);
 int		ft_lstsize(t_list *lst);
 
 #endif

@@ -1,4 +1,3 @@
-
 NAME = cub3d
 
 CC = cc
@@ -10,10 +9,8 @@ MLX_PATH = minilibx-linux/
 LIBFT = $(LIBFT_PATH)libft.a
 MLX = $(MLX_PATH)libmlx.a
 
-SRC = cub3d.c source/map/parse_map.c source/map/check_the_map.c source/ft_error.c source/map/free_split.c source/file/file_control.c \
-	includes/get_next_line/get_next_line.c includes/get_next_line/get_next_line_utils.c
-
-
+SRC = src/main.c src/utils/gc.c src/utils/utils.c src/parsing/parsing.c src/parsing/parse_textures.c \
+	src/parsing/parse_map.c src/game/game.c src/game/movement.c src/raycasting/raycasting.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -29,7 +26,7 @@ $(LIBFT):
 	@make -C $(LIBFT_PATH)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -Iincludes -I$(MLX_PATH) -c $< -o $@
 
 clean:
 	@make clean -C $(LIBFT_PATH)
