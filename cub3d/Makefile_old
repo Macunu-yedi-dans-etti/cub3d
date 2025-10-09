@@ -1,0 +1,74 @@
+NAME = cub3d
+
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g
+MLX_FLAGS = -lm -lmlx -lXext -lX11
+
+LIBFT_PATH = includes/libft/
+MLX_PATH = minilibx-linux/
+LIBFT = $(LIBFT_PATH)libft.a
+MLX = $(MLX_PATH)libmlx.a
+
+SRC_DIR = src/
+UTILS_DIR = $(SRC_DIR)utils/
+PARSING_DIR = $(SRC_DIR)parsing/
+GAME_DIR = $(SRC_DIR)game/
+RAYCASTING_DIR = $(SRC_DIR)raycasting/
+
+SRCS = $(SRC_DIR)main.c \
+       $(UTILS_DIR)gc.c \
+       $(UTILS_DIR)utils.c \
+       $(PARSING_DIR)parsing.c \
+       $(PARSING_DIR)parse_textures.c \
+       $(PARSING_DIR)parse_map.c \
+       $(GAME_DIR)game.c \
+       $(GAME_DIR)movement.c \
+       $(RAYCASTING_DIR)raycasting.c
+
+OBJS = $(SRCS:.c=.o)
+
+RED = \033[0;31m
+GREEN = \033[0;32m
+YELLOW = \033[0;33m
+BLUE = \033[0;34m
+RESET = \033[0m
+
+all: $(NAME)
+
+$(NAME): $(OBJS) $(LIBFT) $(MLX)
+	@echo "$(YELLOW)Linking $(NAME)...$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_PATH) -lft -L$(MLX_PATH) $(MLX_FLAGS) -o $(NAME)
+	@echo "$(GREEN)✓ $(NAME) compiled successfully!$(RESET)"
+
+%.o: %.c
+	@echo "$(BLUE)Compiling $<...$(RESET)"
+	@$(CC) $(CFLAGS) -Iincludes -I$(MLX_PATH) -c $< -o $@
+
+$(MLX):
+	@echo "$(YELLOW)Compiling MLX library...$(RESET)"
+	@make -C $(MLX_PATH) --silent
+	@echo "$(GREEN)✓ MLX library compiled!$(RESET)"
+
+$(LIBFT):
+	@echo "$(YELLOW)Compiling libft...$(RESET)"
+	@make -C $(LIBFT_PATH) --silent
+	@echo "$(GREEN)✓ Libft compiled!$(RESET)"
+
+clean:
+	@echo "$(RED)Cleaning object files...$(RESET)"
+	@rm -f $(OBJS)
+	@make clean -C $(LIBFT_PATH) --silent
+	@make clean -C $(MLX_PATH) --silent
+
+fclean: clean
+	@echo "$(RED)Cleaning executable...$(RESET)"
+	@rm -f $(NAME)
+	@make fclean -C $(LIBFT_PATH) --silent
+
+re: fclean all
+
+test: $(NAME)
+	@echo "$(YELLOW)Running test with sample map...$(RESET)"
+	@./$(NAME) maps/good/test_map.cub
+
+.PHONY: all clean fclean re test
