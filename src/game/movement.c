@@ -6,13 +6,13 @@
 /*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 15:30:00 by musoysal          #+#    #+#             */
-/*   Updated: 2025/10/09 16:27:20 by haloztur         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:55:42 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-int	handle_keypress(int keycode, t_game *game)
+int	handle_key_press(int keycode, t_game *game)
 {
 	if (keycode == KEY_ESC)
 		cleanup_game(game);
@@ -31,7 +31,7 @@ int	handle_keypress(int keycode, t_game *game)
 	return (0);
 }
 
-int	handle_keyrelease(int keycode, t_game *game)
+int	handle_key_release(int keycode, t_game *game)
 {
 	if (keycode == KEY_W)
 		game->keys.w_pressed = 0;
@@ -83,7 +83,7 @@ void	rotate_player(t_game *game, double angle)
 		+ game->player.plane_y * cos(angle);
 }
 
-void	update_player_movement(t_game *game)
+void	handle_movement(t_game *game)
 {
 	if (game->keys.w_pressed)
 		move_player(game, game->player.dir_x * MOVE_SPEED,

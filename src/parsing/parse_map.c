@@ -6,7 +6,7 @@
 /*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:33 by haloztur          #+#    #+#             */
-/*   Updated: 2025/10/09 16:27:34 by haloztur         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:55:43 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	is_map_line(char *line)
 	return (1);
 }
 
-static void	find_player_position(t_game *game)
+void	find_player_position(t_game *game)
 {
 	int	i;
 	int	j;
@@ -42,9 +42,9 @@ static void	find_player_position(t_game *game)
 			if (game->map.grid[i][j] == 'N' || game->map.grid[i][j] == 'S'
 				|| game->map.grid[i][j] == 'E' || game->map.grid[i][j] == 'W')
 			{
-				game->map.player_x = j;
-				game->map.player_y = i;
-				game->map.player_dir = game->map.grid[i][j];
+				game->map.player_start_x = j;
+				game->map.player_start_y = i;
+				game->map.player_start_dir = game->map.grid[i][j];
 				game->map.grid[i][j] = '0';
 				return ;
 			}
@@ -93,7 +93,7 @@ int	validate_map(t_game *game)
 
 	if (game->map.height < 3 || game->map.width < 3)
 		return (0);
-	if (game->map.player_x == -1 || game->map.player_y == -1)
+	if (game->map.player_start_x == -1 || game->map.player_start_y == -1)
 		return (0);
 	i = 0;
 	while (i < game->map.height)

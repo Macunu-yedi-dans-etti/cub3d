@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 15:30:00 by musoysal          #+#    #+#             */
-/*   Updated: 2025/10/09 15:30:00 by musoysal         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:55:42 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	put_pixel(t_game *game, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
+	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
 	{
 		dst = game->mlx.addr + (y * game->mlx.line_length
 				+ x * (game->mlx.bits_per_pixel / 8));

@@ -10,9 +10,9 @@
 # include "../minilibx-linux/mlx.h"
 # include "libft/libft.h"
 
-# define WINDOW_WIDTH 800
-# define WINDOW_HEIGHT 600
-# define WINDOW_TITLE "cub3d"
+# define WIN_WIDTH 800
+# define WIN_HEIGHT 600
+# define WIN_TITLE "My Game"
 
 # define MOVE_SPEED 0.05
 # define ROT_SPEED 0.03
@@ -27,17 +27,30 @@
 
 # define WALL '1'
 # define EMPTY '0'
-# define NORTH 'N'
-# define SOUTH 'S'
-# define EAST 'E'
-# define WEST 'W'
+# define PLAYER_N 'N'
+# define PLAYER_S 'S'
+# define PLAYER_E 'E'
+# define PLAYER_W 'W'
 
+# define ERR_USAGE "Error\nUsage: ./cub3D <map.cub>\n"
 # define ERR_ARGS "Error\nInvalid number of arguments\n"
 # define ERR_FILE "Error\nCannot open file\n"
 # define ERR_MAP "Error\nInvalid map\n"
-# define ERR_TEXTURE "Error\nInvalid texture\n"
-# define ERR_COLOR "Error\nInvalid color\n"
-# define ERR_MLX "Error\nMLX initialization failed\n"
+# define ERR_FILE_NOT_FOUND "Error\nFile not found\n"
+# define ERR_FILE_PERMISSION "Error\nPermission denied\n"
+# define ERR_FILE_EXTENSION "Error\nFile must have .cub extension\n"
+# define ERR_MAP_INVALID "Error\nInvalid map\n"
+# define ERR_MAP_NOT_CLOSED "Error\nMap not surrounded by walls\n"
+# define ERR_MAP_EMPTY "Error\nEmpty map\n"
+# define ERR_PLAYER_MISSING "Error\nNo player found\n"
+# define ERR_PLAYER_MULTIPLE "Error\nMultiple players found\n"
+# define ERR_TEXTURE_MISSING "Error\nMissing texture\n"
+# define ERR_TEXTURE_INVALID "Error\nInvalid texture file\n"
+# define ERR_COLOR_INVALID "Error\nInvalid color format\n"
+# define ERR_COLOR_RANGE "Error\nColor values must be 0-255\n"
+# define ERR_MLX_INIT "Error\nMLX initialization failed\n"
+# define ERR_MLX_WIN "Error\nWindow creation failed\n"
+# define ERR_MLX_IMG "Error\nImage creation failed\n"
 # define ERR_MALLOC "Error\nMemory allocation failed\n"
 
 typedef struct s_gc_node
@@ -88,9 +101,9 @@ typedef struct s_map
 	char	**grid;
 	int		width;
 	int		height;
-	int		player_x;
-	int		player_y;
-	char	player_dir;
+	int		player_start_x;
+	int		player_start_y;
+	char	player_start_dir;
 }	t_map;
 
 typedef struct s_mlx
@@ -151,9 +164,7 @@ typedef struct s_game
 void	gc_init(t_gc *gc);
 void	*gc_track(t_gc *gc, void *ptr);
 void	*gc_malloc(t_gc *gc, size_t size);
-void	*gc_calloc(t_gc *gc, size_t count, size_t size);
 char	*gc_strdup(t_gc *gc, const char *s);
-void	**gc_track_array(t_gc *gc, void **array);
 void	gc_free_all(t_gc *gc);
 
 int		main(int argc, char **argv);
@@ -163,36 +174,31 @@ int		game_loop(t_game *game);
 void	cleanup_game(t_game *game);
 
 int		parse_file(t_game *game, char *filename);
-int		parse_map(t_game *game, char **lines, int start);
 int		parse_textures(t_game *game, char **lines);
 int		parse_colors(t_game *game, char **lines);
+int		parse_map(t_game *game, char **lines, int start);
 int		validate_map(t_game *game);
+void	find_player_position(t_game *game);
 
 void	raycast(t_game *game);
-void	cast_rays(t_game *game);
-void	calculate_ray(t_game *game, t_ray *ray, int x);
-void	perform_dda(t_game *game, t_ray *ray);
-void	draw_wall(t_game *game, t_ray *ray, int x);
-void	calculate_wall_height(t_ray *ray);
-void	draw_walls(t_game *game, t_ray *ray, int x);
 void	init_ray(t_game *game, t_ray *ray, int x);
+void	perform_dda(t_game *game, t_ray *ray);
+void	calculate_wall_height(t_ray *ray);
 
 void	render_frame(t_game *game);
 void	draw_background(t_game *game);
+void	draw_wall(t_game *game, t_ray *ray, int x);
 void	put_pixel(t_game *game, int x, int y, int color);
-int		get_texture_color(t_game *game, t_ray *ray, int tex_x, int tex_y);
 
-int		key_press(int keycode, t_game *game);
-int		key_release(int keycode, t_game *game);
-int		handle_keypress(int keycode, t_game *game);
-int		handle_keyrelease(int keycode, t_game *game);
+int		handle_key_press(int keycode, t_game *game);
+int		handle_key_release(int keycode, t_game *game);
 void	handle_movement(t_game *game);
-void	update_player_movement(t_game *game);
 void	move_player(t_game *game, double move_x, double move_y);
 void	rotate_player(t_game *game, double angle);
+int		close_window(t_game *game);
 
 void	error_exit(t_game *game, char *message);
-int		is_valid_extension(char *filename, char *extension);
+int		is_valid_extension(char *filename);
 int		create_rgb(int r, int g, int b);
 char	**read_file_lines(char *filename, t_gc *gc);
 

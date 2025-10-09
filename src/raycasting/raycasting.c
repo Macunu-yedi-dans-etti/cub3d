@@ -6,7 +6,7 @@
 /*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:51 by haloztur          #+#    #+#             */
-/*   Updated: 2025/10/09 16:27:52 by haloztur         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:55:40 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_ray(t_game *game, t_ray *ray, int x)
 {
-	ray->camera_x = 2 * x / (double)WINDOW_WIDTH - 1;
+	ray->camera_x = 2 * x / (double)WIN_WIDTH - 1;
 	ray->ray_dir_x = game->player.dir_x + game->player.plane_x * ray->camera_x;
 	ray->ray_dir_y = game->player.dir_y + game->player.plane_y * ray->camera_x;
 	ray->map_x = (int)game->player.x;
@@ -88,13 +88,13 @@ void	calculate_wall_height(t_ray *ray)
 	else
 		ray->perp_wall_dist = (ray->map_y - ray->map_y + (1 - ray->step_y) / 2)
 			/ ray->ray_dir_y;
-	ray->line_height = (int)(WINDOW_HEIGHT / ray->perp_wall_dist);
-	ray->draw_start = -ray->line_height / 2 + WINDOW_HEIGHT / 2;
+	ray->line_height = (int)(WIN_HEIGHT / ray->perp_wall_dist);
+	ray->draw_start = -ray->line_height / 2 + WIN_HEIGHT / 2;
 	if (ray->draw_start < 0)
 		ray->draw_start = 0;
-	ray->draw_end = ray->line_height / 2 + WINDOW_HEIGHT / 2;
-	if (ray->draw_end >= WINDOW_HEIGHT)
-		ray->draw_end = WINDOW_HEIGHT - 1;
+	ray->draw_end = ray->line_height / 2 + WIN_HEIGHT / 2;
+	if (ray->draw_end >= WIN_HEIGHT)
+		ray->draw_end = WIN_HEIGHT - 1;
 }
 
 void	draw_walls(t_game *game, t_ray *ray, int x)
@@ -123,17 +123,17 @@ void	draw_walls(t_game *game, t_ray *ray, int x)
 		color = color / 2;
 	while (y <= ray->draw_end)
 		put_pixel(game, x, y++, color);
-	while (y < WINDOW_HEIGHT)
+	while (y < WIN_HEIGHT)
 		put_pixel(game, x, y++, game->floor.rgb);
 }
 
-void	cast_rays(t_game *game)
+void	raycast(t_game *game)
 {
 	t_ray	ray;
 	int		x;
 
 	x = 0;
-	while (x < WINDOW_WIDTH)
+	while (x < WIN_WIDTH)
 	{
 		init_ray(game, &ray, x);
 		perform_dda(game, &ray);
