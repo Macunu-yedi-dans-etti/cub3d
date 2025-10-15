@@ -17,13 +17,23 @@
 # define MOVE_SPEED 0.05
 # define ROT_SPEED 0.03
 
-# define KEY_ESC 65307
-# define KEY_W 119
-# define KEY_A 97
-# define KEY_S 115
-# define KEY_D 100
-# define KEY_LEFT 65361
-# define KEY_RIGHT 65363
+// MacOS
+#define KEY_W 13
+#define KEY_A 0
+#define KEY_S 1
+#define KEY_D 2
+#define KEY_LEFT 123
+#define KEY_RIGHT 124
+
+/* Linux
+#define KEY_ESC 65307
+#define KEY_W 119
+#define KEY_A 97
+#define KEY_S 115
+#define KEY_D 100
+#define KEY_LEFT 65361
+#define KEY_RIGHT 65363
+*/
 
 # define WALL '1'
 # define EMPTY '0'
@@ -52,6 +62,7 @@
 # define ERR_MLX_WIN "Error\nWindow creation failed\n"
 # define ERR_MLX_IMG "Error\nImage creation failed\n"
 # define ERR_MALLOC "Error\nMemory allocation failed\n"
+# define ERR_TEXTURE_LOAD "Error\nTexture loading failed\n"
 
 typedef struct s_gc_node
 {
@@ -201,5 +212,7 @@ void	error_exit(t_game *game, char *message);
 int		is_valid_extension(char *filename);
 int		create_rgb(int r, int g, int b);
 char	**read_file_lines(char *filename, t_gc *gc);
+
+int load_all_textures(t_game *game);
 
 #endif

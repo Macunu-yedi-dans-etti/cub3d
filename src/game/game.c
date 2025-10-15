@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:14 by haloztur          #+#    #+#             */
-/*   Updated: 2025/10/09 16:55:36 by haloztur         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:00:55 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	init_game(t_game *game)
 			&game->mlx.endian);
 	init_player(game);
 	ft_memset(&game->keys, 0, sizeof(t_keys));
+	if (load_all_textures(game))
+		error_exit(game, ERR_TEXTURE_LOAD);
 }
 
 int	game_loop(t_game *game)
@@ -96,7 +98,7 @@ void	cleanup_game(t_game *game)
 		mlx_destroy_window(game->mlx.mlx, game->mlx.win);
 	if (game->mlx.mlx)
 	{
-		mlx_destroy_display(game->mlx.mlx);
+		// mlx_destroy_display(game->mlx.mlx);
 		free(game->mlx.mlx);
 	}
 	gc_free_all(&game->gc);

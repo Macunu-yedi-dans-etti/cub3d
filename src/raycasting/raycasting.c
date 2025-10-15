@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:51 by haloztur          #+#    #+#             */
-/*   Updated: 2025/10/09 17:17:23 by haloztur         ###   ########.fr       */
+/*   Updated: 2025/10/15 10:59:35 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,41 +96,72 @@ void	calculate_wall_height(t_game *game, t_ray *ray)
 	if (ray->draw_end >= WIN_HEIGHT)
 		ray->draw_end = WIN_HEIGHT - 1;
 }
-
-void	draw_walls(t_game *game, t_ray *ray, int x)
+static int get_texture_color(t_game *game, t_ray *ray, int tex_x, int tex_y)
 {
-	int	y;
-	int	color;
+	if (ray->side == 0)
+		return (game->texture.north_img[tex_y * game->texture.width + tex_x]);
+	else if (ray->side == 1)
+		return (game->texture.south_img[tex_y * game->texture.width + tex_x]);
+	else if (ray->side == 2)
+		return (game->texture.west_img[tex_y * game->texture.width + tex_x]);
+	else
+		return (game->texture.east_img[tex_y * game->texture.width + tex_x]);
+	return (game->texture.north_img[tex_y * game->texture.width + tex_x]);
+}
 
+void draw_walls(t_game *game, t_ray *ray, int x)
+{
+	double wall_x;
+	int tex_x;
+	double step;
+	double tex_pos;
+	int y;
+	int tex_y;
+	int color;
+
+	// Duvarın çarpma noktasını bul
+	if (ray->side == 0)
+		wall_x = game->player.y + ray->perp_wall_dist * ray->ray_dir_y;
+	else
+		wall_x = game->player.x + ray->perp_wall_dist * ray->ray_dir_x;
+	wall_x -= floor(wall_x);
+
+	// Texture X koordinatı
+	tex_x = (int)(wall_x * (double)game->texture.width);
+	if (ray->side == 0 && ray->ray_dir_x > 0)
+		tex_x = game->texture.width - tex_x - 1;
+	if (ray->side == 1 && ray->ray_dir_y < 0)
+		tex_x = game->texture.width - tex_x - 1;
+
+	// Texture dikey ölçekleme
+	step = 1.0 * game->texture.height / ray->line_height;
+	tex_pos = (ray->draw_start - WIN_HEIGHT / 2 + ray->line_height / 2) * step;
+
+	// Tavan
 	y = 0;
 	while (y < ray->draw_start)
 		put_pixel(game, x, y++, game->ceiling.rgb);
-	if (ray->side == 1)
-	{
-		if (ray->ray_dir_y > 0)
-			color = 0x800000;
-		else
-			color = 0xFF0000;
-	}
-	else
-	{
-		if (ray->ray_dir_x > 0)
-			color = 0x008000;
-		else
-			color = 0x00FF00;
-	}
-	if (ray->side == 1)
-		color = color / 2;
+
+	// Duvar
 	while (y <= ray->draw_end)
+	{
+		tex_y = (int)tex_pos & (game->texture.height - 1);
+		tex_pos += step;
+		color = get_texture_color(game, ray, tex_x, tex_y);
+		if (ray->side == 1)
+			color = (color >> 1) & 8355711; // Gölgelendirme efekti
 		put_pixel(game, x, y++, color);
+	}
+
+	// Zemin
 	while (y < WIN_HEIGHT)
 		put_pixel(game, x, y++, game->floor.rgb);
 }
 
-void	raycast(t_game *game)
+void raycast(t_game *game)
 {
-	t_ray	ray;
-	int		x;
+	t_ray ray;
+	int x;
 
 	x = 0;
 	while (x < WIN_WIDTH)
