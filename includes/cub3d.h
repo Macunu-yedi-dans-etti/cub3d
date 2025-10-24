@@ -10,30 +10,20 @@
 # include "../minilibx-linux/mlx.h"
 # include "libft/libft.h"
 
-# define WIN_WIDTH 800
-# define WIN_HEIGHT 600
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
 # define WIN_TITLE "My Game"
 
-# define MOVE_SPEED 0.05
-# define ROT_SPEED 0.03
+# define MOVE_SPEED 0.08
+# define ROT_SPEED 0.05
 
-// MacOS
-#define KEY_W 13
-#define KEY_A 0
-#define KEY_S 1
-#define KEY_D 2
-#define KEY_LEFT 123
-#define KEY_RIGHT 124
-
-/* Linux
 #define KEY_ESC 65307
 #define KEY_W 119
 #define KEY_A 97
 #define KEY_S 115
 #define KEY_D 100
-#define KEY_LEFT 65361
-#define KEY_RIGHT 65363
-*/
+#define KEY_LEFT 65363
+#define KEY_RIGHT 65361
 
 # define WALL '1'
 # define EMPTY '0'
@@ -99,10 +89,10 @@ typedef struct s_texture
 	char	*south;
 	char	*east;
 	char	*west;
-	void	*north_img;
-	void	*south_img;
-	void	*east_img;
-	void	*west_img;
+	int		*north_img;
+	int		*south_img;
+	int		*east_img;
+	int		*west_img;
 	int		width;
 	int		height;
 }	t_texture;
