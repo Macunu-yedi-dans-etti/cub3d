@@ -17,13 +17,13 @@
 # define MOVE_SPEED 0.08
 # define ROT_SPEED 0.05
 
-#define KEY_ESC 65307
-#define KEY_W 119
-#define KEY_A 97
-#define KEY_S 115
-#define KEY_D 100
-#define KEY_LEFT 65363
-#define KEY_RIGHT 65361
+#define KEY_ESC 53
+#define KEY_W 13
+#define KEY_A 0
+#define KEY_S 1
+#define KEY_D 2
+#define KEY_LEFT 124
+#define KEY_RIGHT 123
 
 # define WALL '1'
 # define EMPTY '0'
@@ -179,7 +179,7 @@ int		parse_textures(t_game *game, char **lines);
 int		parse_colors(t_game *game, char **lines);
 int		parse_map(t_game *game, char **lines, int start);
 int		validate_map(t_game *game);
-void	find_player_position(t_game *game);
+int		find_player_position(t_game *game);
 
 void	raycast(t_game *game);
 void	init_ray(t_game *game, t_ray *ray, int x);

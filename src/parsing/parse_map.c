@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:33 by haloztur          #+#    #+#             */
-/*   Updated: 2025/10/09 16:55:43 by haloztur         ###   ########.fr       */
+/*   Updated: 2025/10/30 19:35:43 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,36 +28,40 @@ static int	is_map_line(char *line)
 	return (1);
 }
 
-void	find_player_position(t_game *game)
+int	find_player_position(t_game *game)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
+	int count = 0;
 
-	i = 0;
-	while (i < game->map.height)
+	game->map.player_start_x = -1;
+	game->map.player_start_y = -1;
+	game->map.player_start_dir = 'N';
+	for (i = 0; i < game->map.height; i++)
 	{
-		j = 0;
-		while (j < (int)ft_strlen(game->map.grid[i]))
+		for (j = 0; j < (int)ft_strlen(game->map.grid[i]); j++)
 		{
-			if (game->map.grid[i][j] == 'N' || game->map.grid[i][j] == 'S'
-				|| game->map.grid[i][j] == 'E' || game->map.grid[i][j] == 'W')
+			if (game->map.grid[i][j] == 'N' || game->map.grid[i][j] == 'S' || game->map.grid[i][j] == 'E' || game->map.grid[i][j] == 'W')
 			{
-				game->map.player_start_x = j;
-				game->map.player_start_y = i;
-				game->map.player_start_dir = game->map.grid[i][j];
+				count++;
+				if (count == 1)
+				{
+					game->map.player_start_x = j;
+					game->map.player_start_y = i;
+					game->map.player_start_dir = game->map.grid[i][j];
+				}
 				game->map.grid[i][j] = '0';
-				return ;
 			}
-			j++;
 		}
-		i++;
 	}
+	return count;
 }
 
-int	parse_map(t_game *game, char **lines, int start)
+int parse_map(t_game *game, char **lines, int start)
 {
-	int	i;
-	int	map_lines;
+	int i;
+	int map_lines;
+	int player_count;
 
 	i = start;
 	while (lines[i] && !is_map_line(lines[i]))
@@ -82,7 +86,17 @@ int	parse_map(t_game *game, char **lines, int start)
 		i++;
 	}
 	game->map.grid[map_lines] = NULL;
-	find_player_position(game);
+	player_count = find_player_position(game);
+	if (player_count == 0)
+	{
+		printf(ERR_PLAYER_MISSING);
+		return 0;
+	}
+	if (player_count > 1)
+	{
+		printf(ERR_PLAYER_MULTIPLE);
+		return 0;
+	}
 	return (1);
 }
 
