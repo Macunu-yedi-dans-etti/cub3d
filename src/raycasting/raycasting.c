@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:51 by haloztur          #+#    #+#             */
-/*   Updated: 2025/10/15 10:59:35 by musoysal         ###   ########.fr       */
+/*   Updated: 2025/11/09 13:15:27 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,23 @@ void	calculate_wall_height(t_game *game, t_ray *ray)
 }
 static int get_texture_color(t_game *game, t_ray *ray, int tex_x, int tex_y)
 {
+	int	*north;
+	int	*south;
+	int	*west;
+	int	*east;
+
+	north = (int *)game->texture.north_img;
+	south = (int *)game->texture.south_img;
+	west = (int *)game->texture.west_img;
+	east = (int *)game->texture.east_img;
 	if (ray->side == 0)
-		return (game->texture.north_img[tex_y * game->texture.width + tex_x]);
+		return (north[tex_y * game->texture.width + tex_x]);
 	else if (ray->side == 1)
-		return (game->texture.south_img[tex_y * game->texture.width + tex_x]);
+		return (south[tex_y * game->texture.width + tex_x]);
 	else if (ray->side == 2)
-		return (game->texture.west_img[tex_y * game->texture.width + tex_x]);
+		return (west[tex_y * game->texture.width + tex_x]);
 	else
-		return (game->texture.east_img[tex_y * game->texture.width + tex_x]);
-	return (game->texture.north_img[tex_y * game->texture.width + tex_x]);
+		return (east[tex_y * game->texture.width + tex_x]);
 }
 
 void draw_walls(t_game *game, t_ray *ray, int x)

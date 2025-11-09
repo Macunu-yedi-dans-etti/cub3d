@@ -17,13 +17,21 @@
 # define MOVE_SPEED 0.08
 # define ROT_SPEED 0.05
 
-#define KEY_ESC 53
-#define KEY_W 13
-#define KEY_A 0
-#define KEY_S 1
-#define KEY_D 2
-#define KEY_LEFT 124
-#define KEY_RIGHT 123
+// #define KEY_ESC 53
+// #define KEY_W 13
+// #define KEY_A 0
+// #define KEY_S 1
+// #define KEY_D 2
+// #define KEY_LEFT 124
+// #define KEY_RIGHT 123
+
+#define KEY_ESC 65307
+#define KEY_W 119
+#define KEY_A 97
+#define KEY_S 115
+#define KEY_D 100
+#define KEY_LEFT 65361
+#define KEY_RIGHT 65363
 
 # define WALL '1'
 # define EMPTY '0'
@@ -89,10 +97,14 @@ typedef struct s_texture
 	char	*south;
 	char	*east;
 	char	*west;
-	int		*north_img;
-	int		*south_img;
-	int		*east_img;
-	int		*west_img;
+	void	*north_img;
+	void	*south_img;
+	void	*east_img;
+	void	*west_img;
+	void	*north_img_ptr;
+	void	*south_img_ptr;
+	void	*east_img_ptr;
+	void	*west_img_ptr;
 	int		width;
 	int		height;
 }	t_texture;

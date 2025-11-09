@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:14 by haloztur          #+#    #+#             */
-/*   Updated: 2025/10/15 11:00:55 by musoysal         ###   ########.fr       */
+/*   Updated: 2025/11/09 13:15:27 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,21 @@ void	start_game(t_game *game)
 
 void	cleanup_game(t_game *game)
 {
+	if (game->texture.north_img_ptr)
+		mlx_destroy_image(game->mlx.mlx, game->texture.north_img_ptr);
+	if (game->texture.south_img_ptr)
+		mlx_destroy_image(game->mlx.mlx, game->texture.south_img_ptr);
+	if (game->texture.west_img_ptr)
+		mlx_destroy_image(game->mlx.mlx, game->texture.west_img_ptr);
+	if (game->texture.east_img_ptr)
+		mlx_destroy_image(game->mlx.mlx, game->texture.east_img_ptr);
 	if (game->mlx.img)
 		mlx_destroy_image(game->mlx.mlx, game->mlx.img);
 	if (game->mlx.win)
 		mlx_destroy_window(game->mlx.mlx, game->mlx.win);
 	if (game->mlx.mlx)
 	{
-		// mlx_destroy_display(game->mlx.mlx);
+		mlx_destroy_display(game->mlx.mlx);
 		free(game->mlx.mlx);
 	}
 	gc_free_all(&game->gc);
