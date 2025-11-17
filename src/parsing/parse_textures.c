@@ -6,37 +6,47 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:39 by haloztur          #+#    #+#             */
-/*   Updated: 2025/10/15 11:00:23 by musoysal         ###   ########.fr       */
+/*   Updated: 2025/11/17 18:26:24 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-static int	parse_color_line(char *line, t_color *color)
+static void rgb_free(char **rgb)
 {
-	char	**rgb;
-	int		i;
+	int i;
 
-	rgb = ft_split(line + 2, ',');
-	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2])
-		return (0);
-	color->r = ft_atoi(rgb[0]);
-	color->g = ft_atoi(rgb[1]);
-	color->b = ft_atoi(rgb[2]);
-	if (color->r < 0 || color->r > 255 || color->g < 0 || color->g > 255
-		|| color->b < 0 || color->b > 255)
-		return (0);
-	color->rgb = create_rgb(color->r, color->g, color->b);
 	i = 0;
 	while (rgb[i])
 		free(rgb[i++]);
 	free(rgb);
+}
+static int parse_color_line(char *line, t_color *color)
+{
+	char **rgb;
+
+	rgb = ft_split(line + 2, ',');
+	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2])
+	{
+		rgb_free(rgb);
+		return (0);
+	}
+	color->r = ft_atoi(rgb[0]);
+	color->g = ft_atoi(rgb[1]);
+	color->b = ft_atoi(rgb[2]);
+	if (color->r < 0 || color->r > 255 || color->g < 0 || color->g > 255 || color->b < 0 || color->b > 255)
+	{
+		rgb_free(rgb);
+		return (0);
+	}
+	color->rgb = create_rgb(color->r, color->g, color->b);
+	rgb_free(rgb);
 	return (1);
 }
 
-int	parse_textures(t_game *game, char **lines)
+int parse_textures(t_game *game, char **lines)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (lines[i])
@@ -51,17 +61,16 @@ int	parse_textures(t_game *game, char **lines)
 			game->texture.east = gc_strdup(&game->gc, lines[i] + 3);
 		i++;
 	}
-	if (!game->texture.north || !game->texture.south
-		|| !game->texture.west || !game->texture.east)
+	if (!game->texture.north || !game->texture.south || !game->texture.west || !game->texture.east)
 		return (0);
 	return (1);
 }
 
-int	parse_colors(t_game *game, char **lines)
+int parse_colors(t_game *game, char **lines)
 {
-	int	i;
-	int	floor_set;
-	int	ceiling_set;
+	int i;
+	int floor_set;
+	int ceiling_set;
 
 	i = 0;
 	floor_set = 0;
