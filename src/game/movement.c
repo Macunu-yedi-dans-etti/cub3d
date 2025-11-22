@@ -52,13 +52,18 @@ void	move_player(t_game *game, double move_x, double move_y)
 {
 	double	new_x;
 	double	new_y;
+	double	collision_margin;
 
+	collision_margin = 0.2;
 	new_x = game->player.x + move_x;
 	new_y = game->player.y + move_y;
-	if (new_x >= 0 && new_x < game->map.width && new_y >= 0
-		&& new_y < game->map.height)
+	if (new_x - collision_margin >= 0 && new_x + collision_margin < game->map.width
+		&& new_y - collision_margin >= 0 && new_y + collision_margin < game->map.height)
 	{
-		if (game->map.grid[(int)new_y][(int)new_x] != '1')
+		if (game->map.grid[(int)(new_y - collision_margin)][(int)(new_x - collision_margin)] != '1'
+			&& game->map.grid[(int)(new_y + collision_margin)][(int)(new_x - collision_margin)] != '1'
+			&& game->map.grid[(int)(new_y - collision_margin)][(int)(new_x + collision_margin)] != '1'
+			&& game->map.grid[(int)(new_y + collision_margin)][(int)(new_x + collision_margin)] != '1')
 		{
 			game->player.x = new_x;
 			game->player.y = new_y;

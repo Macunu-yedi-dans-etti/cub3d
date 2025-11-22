@@ -15,7 +15,7 @@
 # define WIN_TITLE "My Game"
 
 # define MOVE_SPEED 0.08
-# define ROT_SPEED 0.05
+# define ROT_SPEED 0.07
 
 // #define KEY_ESC 53
 // #define KEY_W 13
