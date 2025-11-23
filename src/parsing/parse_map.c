@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haloztur <haloztur@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:33 by haloztur          #+#    #+#             */
-/*   Updated: 2025/10/30 19:35:43 by musoysal         ###   ########.fr       */
+/*   Updated: 2025/11/23 13:32:51 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,12 @@ int parse_map(t_game *game, char **lines, int start)
 	}
 	game->map.grid[map_lines] = NULL;
 	player_count = find_player_position(game);
-	if (player_count == 0)
+	if (player_count != 1)
 	{
-		printf(ERR_PLAYER_MISSING);
-		return 0;
-	}
-	if (player_count > 1)
-	{
-		printf(ERR_PLAYER_MULTIPLE);
+		if (player_count == 0)
+			printf(ERR_PLAYER_MISSING);
+		else
+			printf(ERR_PLAYER_MULTIPLE);
 		return 0;
 	}
 	return (1);
