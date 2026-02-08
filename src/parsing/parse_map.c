@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42istanbul.c    +#+  +:+       +#+        */
+/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:33 by haloztur          #+#    #+#             */
-/*   Updated: 2025/11/23 13:32:51 by haloztur         ###   ########.fr       */
+/*   Updated: 2026/02/08 14:46:55 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,70 @@ int parse_map(t_game *game, char **lines, int start)
 	return (1);
 }
 
+static int	is_valid_pos(t_game *game, int x, int y)
+{
+	if (y < 0 || y >= game->map.height)
+		return (0);
+	if (x < 0 || x >= (int)ft_strlen(game->map.grid[y]))
+		return (0);
+	return (1);
+}
+
+static int	flood_fill_check(t_game *game, int x, int y, char **visited)
+{
+	if (!is_valid_pos(game, x, y))
+		return (0);
+	if (visited[y][x] == '1')
+		return (1);
+	if (game->map.grid[y][x] == ' ')
+		return (0);
+	if (game->map.grid[y][x] == '1')
+		return (1);
+	visited[y][x] = '1';
+	if (!flood_fill_check(game, x + 1, y, visited))
+		return (0);
+	if (!flood_fill_check(game, x - 1, y, visited))
+		return (0);
+	if (!flood_fill_check(game, x, y + 1, visited))
+		return (0);
+	if (!flood_fill_check(game, x, y - 1, visited))
+		return (0);
+	return (1);
+}
+
+static char	**create_visited_map(t_game *game)
+{
+	char	**visited;
+	int		i;
+	int		j;
+
+	visited = gc_malloc(&game->gc, sizeof(char *) * (game->map.height + 1));
+	if (!visited)
+		return (NULL);
+	i = 0;
+	while (i < game->map.height)
+	{
+		visited[i] = gc_malloc(&game->gc, ft_strlen(game->map.grid[i]) + 1);
+		if (!visited[i])
+			return (NULL);
+		j = 0;
+		while (j < (int)ft_strlen(game->map.grid[i]))
+		{
+			visited[i][j] = '0';
+			j++;
+		}
+		visited[i][j] = '\0';
+		i++;
+	}
+	visited[i] = NULL;
+	return (visited);
+}
+
 int	validate_map(t_game *game)
 {
-	int	i;
-	int	j;
+	char	**visited;
+	int		i;
+	int		j;
 
 	if (game->map.height < 3 || game->map.width < 3)
 		return (0);
@@ -113,16 +173,18 @@ int	validate_map(t_game *game)
 		j = 0;
 		while (j < (int)ft_strlen(game->map.grid[i]))
 		{
-			if ((i == 0 || i == game->map.height - 1
-					|| j == 0 || j == (int)ft_strlen(game->map.grid[i]) - 1)
-				&& game->map.grid[i][j] != '1')
-			{
-				if (game->map.grid[i][j] != ' ')
-					return (0);
-			}
+			if (game->map.grid[i][j] != '0' && game->map.grid[i][j] != '1'
+				&& game->map.grid[i][j] != ' ')
+				return (0);
 			j++;
 		}
 		i++;
 	}
+	visited = create_visited_map(game);
+	if (!visited)
+		return (0);
+	if (!flood_fill_check(game, game->map.player_start_x,
+			game->map.player_start_y, visited))
+		return (0);
 	return (1);
 }
