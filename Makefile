@@ -46,6 +46,6 @@ fclean: clean
 re: fclean all
 
 valgrind: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) maps/good/creepy.cub
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) maps/good/cheese_maze.cub
 
 .PHONY: all clean fclean re valgrind

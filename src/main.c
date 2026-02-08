@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:57 by haloztur          #+#    #+#             */
-/*   Updated: 2026/02/08 14:46:11 by haloztur         ###   ########.fr       */
+/*   Updated: 2026/02/08 15:25:40 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	main(int argc, char **argv)
 	ft_memset(&game, 0, sizeof(t_game));
 	gc_init(&game.gc);
 	if (!parse_file(&game, argv[1]))
-		error_exit(&game, ERR_MAP);
+		error_exit(&game, "");
 	if (!validate_map(&game)) {
-		error_exit(&game, ERR_MAP);
+		error_exit(&game, "");
 	}
 	init_game(&game);
 	start_game(&game);

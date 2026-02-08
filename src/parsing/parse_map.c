@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:33 by haloztur          #+#    #+#             */
-/*   Updated: 2026/02/08 14:46:55 by haloztur         ###   ########.fr       */
+/*   Updated: 2026/02/08 15:39:12 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ int parse_map(t_game *game, char **lines, int start)
 	while (lines[i] && !is_map_line(lines[i]))
 		i++;
 	if (!lines[i])
+	{
+		printf(ERR_MAP_EMPTY);
 		return (0);
+	}
 	map_lines = 0;
 	while (lines[i + map_lines] && is_map_line(lines[i + map_lines]))
 		map_lines++;
@@ -164,9 +167,15 @@ int	validate_map(t_game *game)
 	int		j;
 
 	if (game->map.height < 3 || game->map.width < 3)
+	{
+		printf(ERR_MAP_EMPTY);
 		return (0);
+	}
 	if (game->map.player_start_x == -1 || game->map.player_start_y == -1)
+	{
+		printf(ERR_PLAYER_MISSING);
 		return (0);
+	}
 	i = 0;
 	while (i < game->map.height)
 	{
@@ -175,7 +184,10 @@ int	validate_map(t_game *game)
 		{
 			if (game->map.grid[i][j] != '0' && game->map.grid[i][j] != '1'
 				&& game->map.grid[i][j] != ' ')
+			{
+				printf(ERR_MAP_INVALID);
 				return (0);
+			}
 			j++;
 		}
 		i++;
@@ -185,6 +197,9 @@ int	validate_map(t_game *game)
 		return (0);
 	if (!flood_fill_check(game, game->map.player_start_x,
 			game->map.player_start_y, visited))
+	{
+		printf(ERR_MAP_NOT_CLOSED);
 		return (0);
+	}
 	return (1);
 }
