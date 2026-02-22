@@ -45,6 +45,11 @@ static char	*simple_get_line(int fd)
 			pos++;
 			break ;
 		}
+		if (buffer[pos] == '\t' || buffer[pos] == '\r' || buffer[pos] == '\v' || buffer[pos] == '\f')
+		{
+			pos++;
+			continue ;
+		}
 		line[i++] = buffer[pos++];
 	}
 	line[i] = '\0';

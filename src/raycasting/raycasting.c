@@ -107,14 +107,23 @@ static int get_texture_color(t_game *game, t_ray *ray, int tex_x, int tex_y)
 	south = (int *)game->texture.south_img;
 	west = (int *)game->texture.west_img;
 	east = (int *)game->texture.east_img;
+	
+	// X ekseninde duvar
 	if (ray->side == 0)
-		return (north[tex_y * game->texture.width + tex_x]);
-	else if (ray->side == 1)
-		return (south[tex_y * game->texture.width + tex_x]);
-	else if (ray->side == 2)
-		return (west[tex_y * game->texture.width + tex_x]);
+	{
+		if (ray->ray_dir_x > 0)
+			return (east[tex_y * game->texture.width + tex_x]);
+		else
+			return (west[tex_y * game->texture.width + tex_x]);
+	}
+	// Y ekseninde duvar
 	else
-		return (east[tex_y * game->texture.width + tex_x]);
+	{
+		if (ray->ray_dir_y > 0)
+			return (south[tex_y * game->texture.width + tex_x]);
+		else
+			return (north[tex_y * game->texture.width + tex_x]);
+	}
 }
 
 void draw_walls(t_game *game, t_ray *ray, int x)
