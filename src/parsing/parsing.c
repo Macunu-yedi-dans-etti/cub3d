@@ -12,48 +12,41 @@
 
 #include "../../includes/cub3d.h"
 
-static char	*simple_get_line(int fd)
+static int	fill_buffer(int fd, char *buffer, int *pos, int *size)
 {
-	static char	buffer[1000];
-	static int	pos = 0;
-	static int	size = 0;
-	char		*line;
+	*size = read(fd, buffer, 8191);
+	*pos = 0;
+	return (*size);
+}
+
+static char	*get_processed_line(t_game *game, char *line_tmp, int i)
+{
+	line_tmp[i] = '\0';
+	return (gc_strdup(&game->gc, line_tmp));
+}
+
+static char	*simple_get_line(int fd, t_game *game)
+{
+	static char	buf[8192];
+	static int	p = 0;
+	static int	s = 0;
+	char		ln[8192];
 	int			i;
 
 	i = 0;
-	line = malloc(1000);
-	if (!line)
-		return (NULL);
-	while (1)
+	while (!(p >= s && fill_buffer(fd, buf, &p, &s) <= 0)
+		&& i < 8191 && buf[p] != '\n')
 	{
-		if (pos >= size)
-		{
-			size = read(fd, buffer, 999);
-			pos = 0;
-			if (size <= 0)
-			{
-				if (i == 0)
-				{
-					free(line);
-					return (NULL);
-				}
-				break ;
-			}
-		}
-		if (buffer[pos] == '\n')
-		{
-			pos++;
-			break ;
-		}
-		if (buffer[pos] == '\t' || buffer[pos] == '\r' || buffer[pos] == '\v' || buffer[pos] == '\f')
-		{
-			pos++;
-			continue ;
-		}
-		line[i++] = buffer[pos++];
+		if (buf[p] != '\r')
+			ln[i++] = buf[p++];
+		else
+			p++;
 	}
-	line[i] = '\0';
-	return (line);
+	if (i < 8191 && p < s && buf[p] == '\n')
+		p++;
+	if (i == 0 && s <= 0)
+		return (NULL);
+	return (get_processed_line(game, ln, i));
 }
 
 char	**read_file(t_game *game, char *filename)
@@ -70,12 +63,12 @@ char	**read_file(t_game *game, char *filename)
 	if (!lines)
 		return (NULL);
 	count = 0;
-	while ((line = simple_get_line(fd)) != NULL)
+	line = simple_get_line(fd, game);
+	while (line != NULL)
 	{
 		if (ft_strlen(line) > 0)
-			lines[count++] = gc_track(&game->gc, line);
-		else
-			free(line);
+			lines[count++] = line;
+		line = simple_get_line(fd, game);
 	}
 	lines[count] = NULL;
 	close(fd);

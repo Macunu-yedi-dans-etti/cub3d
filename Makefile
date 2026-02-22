@@ -1,4 +1,4 @@
-NAME = cub3d
+NAME = cub3D
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
@@ -15,8 +15,11 @@ MLX_PATH = minilibx-linux/
 LIBFT = $(LIBFT_PATH)libft.a
 MLX = $(MLX_PATH)libmlx.a
 
-SRC = src/main.c src/utils/gc.c src/utils/utils.c src/parsing/parsing.c src/parsing/parse_textures.c \
-	src/parsing/parse_map.c src/game/game.c src/game/movement.c src/raycasting/raycasting.c src/game/textures.c
+SRC = src/main.c src/utils/gc.c src/utils/utils.c src/parsing/parsing.c \
+	src/parsing/parse_textures.c src/parsing/parsing_utils.c \
+	src/parsing/parse_map.c src/parsing/map_validation.c \
+	src/game/game.c src/game/movement.c src/raycasting/raycasting.c \
+	src/game/textures.c
 
 OBJ = $(SRC:.c=.o)
 

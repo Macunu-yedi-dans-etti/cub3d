@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
+/*   Updated: 2026/02/22 22:15:00 by haloztur         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -10,29 +22,29 @@
 # include "../minilibx-linux/mlx.h"
 # include "libft/libft.h"
 
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1080
-# define WIN_TITLE "My Game"
+# define WIN_WIDTH 900
+# define WIN_HEIGHT 900
+# define WIN_TITLE "Cub3D"
 
 # define MOVE_SPEED 0.08
 # define ROT_SPEED 0.07
 
-// #define KEY_ESC 53
-// #define KEY_W 13
-// #define KEY_A 0
-// #define KEY_S 1
-// #define KEY_D 2
-// #define KEY_LEFT 124
-// #define KEY_RIGHT 123
-
-#define KEY_ESC 65307
-#define KEY_W 119
-#define KEY_A 97
-#define KEY_S 115
-#define KEY_D 100
-#define KEY_LEFT 65363
-#define KEY_RIGHT 65361
-
+# define KEY_ESC 53
+# define KEY_W 13
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
+# define KEY_LEFT 124
+# define KEY_RIGHT 123
+/*
+# define KEY_ESC 65307
+# define KEY_W 119
+# define KEY_A 97
+# define KEY_S 115
+# define KEY_D 100
+# define KEY_LEFT 65363
+# define KEY_RIGHT 65361
+*/
 # define WALL '1'
 # define EMPTY '0'
 # define PLAYER_N 'N'
@@ -49,6 +61,7 @@
 # define ERR_FILE_EXTENSION "Error\nFile must have .cub extension\n"
 # define ERR_MAP_INVALID "Error\nInvalid map\n"
 # define ERR_MAP_NOT_CLOSED "Error\nMap not surrounded by walls\n"
+# define ERR_MAP_SPACE_TAB "Error\nMap must not contain space or tab\n"
 # define ERR_MAP_EMPTY "Error\nEmpty map\n"
 # define ERR_PLAYER_MISSING "Error\nNo player found\n"
 # define ERR_PLAYER_MULTIPLE "Error\nMultiple players found\n"
@@ -192,6 +205,10 @@ int		parse_colors(t_game *game, char **lines);
 int		parse_map(t_game *game, char **lines, int start);
 int		validate_map(t_game *game);
 int		find_player_position(t_game *game);
+int		is_map_line(char *line);
+void	rgb_free(char **rgb);
+int		is_valid_rgb_token(char *s);
+int		is_invalid_color_string(char *line);
 
 void	raycast(t_game *game);
 void	init_ray(t_game *game, t_ray *ray, int x);
@@ -215,6 +232,6 @@ int		is_valid_extension(char *filename);
 int		create_rgb(int r, int g, int b);
 char	**read_file_lines(char *filename, t_gc *gc);
 
-int load_all_textures(t_game *game);
+int		load_all_textures(t_game *game);
 
 #endif

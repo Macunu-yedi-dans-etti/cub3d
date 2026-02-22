@@ -15,6 +15,7 @@
 static int	validate_args(int argc, char **argv)
 {
 	int	len;
+	int	fd;
 
 	if (argc != 2)
 	{
@@ -24,9 +25,16 @@ static int	validate_args(int argc, char **argv)
 	len = ft_strlen(argv[1]);
 	if (len < 4 || ft_strcmp(argv[1] + len - 4, ".cub") != 0)
 	{
+		printf(ERR_FILE_EXTENSION);
+		return (0);
+	}
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+	{
 		printf(ERR_FILE);
 		return (0);
 	}
+	close(fd);
 	return (1);
 }
 
