@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:45 by haloztur          #+#    #+#             */
-/*   Updated: 2025/10/09 17:14:02 by haloztur         ###   ########.fr       */
+/*   Updated: 2026/02/25 14:21:25 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+// Tek seferde dosyadan büyük bir blok okur ve buffer/pointer bilgilerini günceller.
+// 8191 byte okunmasının sebebi, 8192 boyutlu buffer'da son karakteri '\0' için boş bırakmaktır.
+// Buradan dönen değer size değeri dosyadan okunan byte sayısını verir.
 static int	fill_buffer(int fd, char *buffer, int *pos, int *size)
 {
 	*size = read(fd, buffer, 8191);
@@ -19,12 +22,16 @@ static int	fill_buffer(int fd, char *buffer, int *pos, int *size)
 	return (*size);
 }
 
+// Geçici satır buffer'ının sonuna '\0' koyar ve bu satırı garbage collector üzerinden kopyalar.
 static char	*get_processed_line(t_game *game, char *line_tmp, int i)
 {
 	line_tmp[i] = '\0';
 	return (gc_strdup(&game->gc, line_tmp));
 }
 
+// Dosyadan satır okuyan basit bir "get_next_line" benzeri fonksiyon.
+// - static buffer (buf) ve indexler (p, s) kullanarak bir kere okunan veriyi birden fazla çağrıda tüketir.
+// - 8192: hem buffer hem de satır için "makul maksimum satır uzunluğu" sınırı (1 byte da '\0' için ayrılıyor).
 static char	*simple_get_line(int fd, t_game *game)
 {
 	static char	buf[8192];

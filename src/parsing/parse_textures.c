@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:39 by haloztur          #+#    #+#             */
-/*   Updated: 2026/02/08 18:11:03 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/02/25 14:19:08 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,18 +96,20 @@ int	parse_colors(t_game *game, char **lines)
 	{
 		if (lines[i][0] == 'F' && lines[i][1] == ' ')
 		{
-			if (f_set++ && printf("Error\nDuplicate floor color\n"))
+			if (f_set++ && printf(ERR_FLOOR_DUP))
 				return (0);
 			if (!parse_color_line(lines[i], &game->floor))
 				return (0);
 		}
 		else if (lines[i][0] == 'C' && lines[i][1] == ' ')
 		{
-			if (c_set++ && printf("Error\nDuplicate ceiling color\n"))
+			if (c_set++ && printf(ERR_CEILING_DUP))
 				return (0);
 			if (!parse_color_line(lines[i], &game->ceiling))
 				return (0);
 		}
 	}
-	return (f_set && c_set);
+	if (!f_set || !c_set)
+		return (printf(ERR_COLOR_MISSING), 0);
+	return (1);
 }

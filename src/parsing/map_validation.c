@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
-/*   Updated: 2026/02/22 22:15:00 by haloztur         ###   ########.fr       */
+/*   Updated: 2026/02/25 14:17:57 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	validate_map(t_game *game)
 
 	if (game->map.height < 3 || game->map.width < 3)
 		return (printf(ERR_MAP_EMPTY), 0);
+	// TEKRAR KONTROL EDİYORUZ
 	if (game->map.player_start_x == -1 || game->map.player_start_y == -1)
 		return (printf(ERR_PLAYER_MISSING), 0);
 	i = -1;

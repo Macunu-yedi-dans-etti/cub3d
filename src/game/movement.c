@@ -15,7 +15,7 @@
 int	handle_key_press(int keycode, t_game *game)
 {
 	if (keycode == KEY_ESC)
-		cleanup_game(game);
+		close_window(game);
 	else if (keycode == KEY_W)
 		game->keys.w_pressed = 1;
 	else if (keycode == KEY_S)

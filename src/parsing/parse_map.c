@@ -6,12 +6,13 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:33 by haloztur          #+#    #+#             */
-/*   Updated: 2026/02/08 15:39:12 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/02/25 14:18:05 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+// bu fonksiyon map satırını kontrol eder, sadece 0,1,N,S,E,W karakterleri kabul edilir
 int	is_map_line(char *line)
 {
 	int	i;

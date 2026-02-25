@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
-/*   Updated: 2026/02/22 22:15:00 by haloztur         ###   ########.fr       */
+/*   Updated: 2026/02/25 14:17:26 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@
 # define ERR_USAGE "Error\nUsage: ./cub3D <map.cub>\n"
 # define ERR_ARGS "Error\nInvalid number of arguments\n"
 # define ERR_FILE "Error\nCannot open file\n"
-# define ERR_MAP "Error\nInvalid map\n"
 # define ERR_FILE_NOT_FOUND "Error\nFile not found\n"
 # define ERR_FILE_PERMISSION "Error\nPermission denied\n"
 # define ERR_FILE_EXTENSION "Error\nFile must have .cub extension\n"
@@ -68,7 +67,10 @@
 # define ERR_TEXTURE_MISSING "Error\nMissing texture\n"
 # define ERR_TEXTURE_INVALID "Error\nInvalid texture file\n"
 # define ERR_COLOR_INVALID "Error\nInvalid color format\n"
+# define ERR_COLOR_MISSING "Error\nFloor and ceiling color missing or invalid\n"
 # define ERR_COLOR_RANGE "Error\nColor values must be 0-255\n"
+# define ERR_FLOOR_DUP "Error\nDuplicate floor color\n"
+# define ERR_CEILING_DUP "Error\nDuplicate ceiling color\n"
 # define ERR_MLX_INIT "Error\nMLX initialization failed\n"
 # define ERR_MLX_WIN "Error\nWindow creation failed\n"
 # define ERR_MLX_IMG "Error\nImage creation failed\n"
