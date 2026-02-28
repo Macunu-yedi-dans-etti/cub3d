@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
-/*   Updated: 2026/02/25 14:17:57 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/02/28 15:06:52 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	flood_fill_check(t_game *game, int x, int y, char **visited)
 		return (0);
 	if (visited[y][x] == '1' || game->map.grid[y][x] == '1')
 		return (1);
-	if (game->map.grid[y][x] == ' ')
+	if (game->map.grid[y][x] == ' ' || game->map.grid[y][x] == '\t')
 		return (0);
 	visited[y][x] = '1';
 	if (!flood_fill_check(game, x + 1, y, visited))
@@ -70,7 +70,8 @@ static int	check_char(t_game *game, int i, int j)
 	char	c;
 
 	c = game->map.grid[i][j];
-	if (c != '0' && c != '1' && c != ' ' && c != '\t')
+	if (c != '0' && c != '1' && c != ' ' && c != '\t'
+		&& !(c >= 9 && c <= 13))
 	{
 		printf(ERR_MAP_INVALID);
 		return (0);
