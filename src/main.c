@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:57 by haloztur          #+#    #+#             */
-/*   Updated: 2026/02/15 14:45:05 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/01 15:25:25 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv)
 	gc_init(&game.gc);
 	if (!parse_file(&game, argv[1]))
 		error_exit(&game, "");
-	if (!validate_map(&game)) {
+	if (!validate_map(&game,0,0)) {
 		error_exit(&game, "");
 	}
 	init_game(&game);

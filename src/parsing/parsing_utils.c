@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
-/*   Updated: 2026/02/25 14:19:59 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/01 15:11:20 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	is_valid_rgb_token(char *s)
 	if (!s)
 		return (0);
 	i = 0;
-	while (s[i] == ' ' || s[i] == '\t')
+	while (s[i] == ' ')
 		i++;
 	if (!s[i])
 		return (0);
@@ -44,7 +44,7 @@ int	is_valid_rgb_token(char *s)
 	}
 	if (digit_count == 0 || digit_count > 3)
 		return (0);
-	while (s[i] == ' ' || s[i] == '\t')
+	while (s[i] == ' ')
 		i++;
 	return (s[i] == '\0');
 }

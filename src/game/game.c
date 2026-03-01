@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:14 by haloztur          #+#    #+#             */
-/*   Updated: 2026/03/01 13:04:10 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/01 13:05:51 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void 	cleanup_game(t_game *game)
 	if (game->mlx.mlx)
 	{
 		mlx_destroy_display(game->mlx.mlx);
-		
 		free(game->mlx.mlx);
 	}
 	gc_free_all(&game->gc);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 14:44:24 by musoysal          #+#    #+#             */
-/*   Updated: 2025/11/09 13:15:27 by haloztur         ###   ########.fr       */
+/*   Updated: 2026/03/01 15:38:17 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static int load_texture(t_game *game, char *path, void **texture, void **img_ptr
 	}
 	*img_ptr = img;
 	*texture = mlx_get_data_addr(img, &bpp, &line_length, &endian);
-	printf("loaded texture: %s\n", path);
 	return (0);
 }
 

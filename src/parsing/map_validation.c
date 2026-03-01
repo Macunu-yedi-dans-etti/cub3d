@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
-/*   Updated: 2026/02/28 15:06:52 by haloztur         ###   ########.fr       */
+/*   Updated: 2026/03/01 15:26:50 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,13 @@ static int	check_char(t_game *game, int i, int j)
 	char	c;
 
 	c = game->map.grid[i][j];
-	if (c != '0' && c != '1' && c != ' ' && c != '\t'
-		&& !(c >= 9 && c <= 13))
+	if (c == '\t')
+	{
+		printf(ERR_MAP_TAB);
+		return (0);
+	}
+	if (c != '0' && c != '1' && c != ' ' && c != 'N'
+		&& c != 'S' && c != 'E' && c != 'W')
 	{
 		printf(ERR_MAP_INVALID);
 		return (0);
@@ -79,16 +84,15 @@ static int	check_char(t_game *game, int i, int j)
 	return (1);
 }
 
-int	validate_map(t_game *game)
+int	validate_map(t_game *game, int i, int j)
 {
 	char	**visited;
-	int		i;
-	int		j;
 
-	if (game->map.height < 3 || game->map.width < 3)
-		return (printf(ERR_MAP_EMPTY), 0);
 	if (game->map.player_start_x == -1 || game->map.player_start_y == -1)
-		return (printf(ERR_PLAYER_MISSING), 0);
+	{
+		printf(ERR_PLAYER_MISSING);
+		return (0);
+	}
 	i = -1;
 	while (++i < game->map.height)
 	{
@@ -102,6 +106,9 @@ int	validate_map(t_game *game)
 		return (0);
 	if (!flood_fill_check(game, game->map.player_start_x,
 			game->map.player_start_y, visited))
-		return (printf(ERR_MAP_NOT_CLOSED), 0);
+	{
+		printf(ERR_MAP_NOT_CLOSED);
+		return (0);
+	}
 	return (1);
 }

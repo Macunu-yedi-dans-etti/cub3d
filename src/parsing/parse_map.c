@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:33 by haloztur          #+#    #+#             */
-/*   Updated: 2026/02/28 15:01:47 by haloztur         ###   ########.fr       */
+/*   Updated: 2026/03/01 16:15:54 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-// Sadece 0,1,N,S,E,W karakterlerini kabul eden map satir kontrolu.
+// Only accept map characters '0','1','N','S','E','W'. Spaces/tabs are invalid.
 int	is_map_line(char *line)
 {
 	int	i;
@@ -22,9 +22,11 @@ int	is_map_line(char *line)
 	has_content = 0;
 	while (line[i])
 	{
+		if (line[i] == '\t')
+			return (0);
 		if (line[i] != '0' && line[i] != '1' && line[i] != 'N'
 			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
-			&& line[i] != ' ' && !(line[i] >= 9 && line[i] <= 13))
+			&& line[i] != ' ')
 			return (0);
 		if (line[i] == '0' || line[i] == '1' || line[i] == 'N'
 			|| line[i] == 'S' || line[i] == 'E' || line[i] == 'W')

@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
-/*   Updated: 2026/03/01 12:56:30 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/01 15:39:52 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@
 # define ERR_FILE_EXTENSION "Error\nFile must have .cub extension\n"
 # define ERR_MAP_INVALID "Error\nInvalid map\n"
 # define ERR_MAP_NOT_CLOSED "Error\nMap not surrounded by walls\n"
-# define ERR_MAP_SPACE_TAB "Error\nMap must not contain space or tab\n"
+# define ERR_MAP_TAB "Error\nMap must not contain tab characters\n"
 # define ERR_MAP_EMPTY "Error\nEmpty map\n"
 # define ERR_PLAYER_MISSING "Error\nNo player found\n"
 # define ERR_PLAYER_MULTIPLE "Error\nMultiple players found\n"
@@ -205,7 +205,7 @@ int		parse_file(t_game *game, char *filename);
 int		parse_textures(t_game *game, char **lines);
 int		parse_colors(t_game *game, char **lines);
 int		parse_map(t_game *game, char **lines, int start);
-int		validate_map(t_game *game);
+int		validate_map(t_game *game, int i, int j);
 int		find_player_position(t_game *game);
 int		is_map_line(char *line);
 void	rgb_free(char **rgb);
