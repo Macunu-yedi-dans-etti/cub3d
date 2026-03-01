@@ -14,12 +14,17 @@
 
 static int	set_tex(t_game *game, char *line, char **tex, char *err)
 {
+	int	i;
+
 	if (*tex)
 	{
 		printf("Error\nDuplicate %s texture\n", err);
 		return (0);
 	}
-	*tex = gc_strdup(&game->gc, line + 3);
+	i = 2;
+	while (line[i] == ' ')
+		i++;
+	*tex = gc_strdup(&game->gc, line + i);
 	return (1);
 }
 

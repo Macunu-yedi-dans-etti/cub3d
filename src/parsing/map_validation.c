@@ -21,48 +21,17 @@ static int	is_valid_pos(t_game *game, int x, int y)
 	return (1);
 }
 
-static int	flood_fill_check(t_game *game, int x, int y, char **visited)
+static int	check_cell_surrounded(t_game *game, int y, int x)
 {
-	if (!is_valid_pos(game, x, y))
+	if (!is_valid_pos(game, x + 1, y) || !is_valid_pos(game, x - 1, y)
+		|| !is_valid_pos(game, x, y + 1) || !is_valid_pos(game, x, y - 1))
 		return (0);
-	if (visited[y][x] == '1' || game->map.grid[y][x] == '1')
-		return (1);
-	if (game->map.grid[y][x] == ' ' || game->map.grid[y][x] == '\t')
-		return (0);
-	visited[y][x] = '1';
-	if (!flood_fill_check(game, x + 1, y, visited))
-		return (0);
-	if (!flood_fill_check(game, x - 1, y, visited))
-		return (0);
-	if (!flood_fill_check(game, x, y + 1, visited))
-		return (0);
-	if (!flood_fill_check(game, x, y - 1, visited))
+	if (game->map.grid[y][x + 1] == ' ' || game->map.grid[y][x + 1] == '\t'
+		|| game->map.grid[y][x - 1] == ' ' || game->map.grid[y][x - 1] == '\t'
+		|| game->map.grid[y + 1][x] == ' ' || game->map.grid[y + 1][x] == '\t'
+		|| game->map.grid[y - 1][x] == ' ' || game->map.grid[y - 1][x] == '\t')
 		return (0);
 	return (1);
-}
-
-static char	**create_visited_map(t_game *game)
-{
-	char	**visited;
-	int		i;
-	int		j;
-
-	visited = gc_malloc(&game->gc, sizeof(char *) * (game->map.height + 1));
-	if (!visited)
-		return (NULL);
-	i = -1;
-	while (++i < game->map.height)
-	{
-		visited[i] = gc_malloc(&game->gc, ft_strlen(game->map.grid[i]) + 1);
-		if (!visited[i])
-			return (NULL);
-		j = -1;
-		while (++j < (int)ft_strlen(game->map.grid[i]))
-			visited[i][j] = '0';
-		visited[i][j] = '\0';
-	}
-	visited[i] = NULL;
-	return (visited);
 }
 
 static int	check_char(t_game *game, int i, int j)
@@ -84,31 +53,31 @@ static int	check_char(t_game *game, int i, int j)
 	return (1);
 }
 
-int	validate_map(t_game *game, int i, int j)
+int	validate_map(t_game *game)
 {
-	char	**visited;
+	int		i;
+	int		j;
 
 	if (game->map.player_start_x == -1 || game->map.player_start_y == -1)
-	{
-		printf(ERR_PLAYER_MISSING);
-		return (0);
-	}
+		return (printf(ERR_PLAYER_MISSING), 0);
 	i = -1;
 	while (++i < game->map.height)
 	{
 		j = -1;
-		while (++j < (int)ft_strlen(game->map.grid[i]))
+		while (game->map.grid[i][++j])
+		{
 			if (!check_char(game, i, j))
 				return (0);
-	}
-	visited = create_visited_map(game);
-	if (!visited)
-		return (0);
-	if (!flood_fill_check(game, game->map.player_start_x,
-			game->map.player_start_y, visited))
-	{
-		printf(ERR_MAP_NOT_CLOSED);
-		return (0);
+			if (game->map.grid[i][j] == '0'
+				|| ft_strchr("NSEW", game->map.grid[i][j]))
+			{
+				if (!check_cell_surrounded(game, i, j))
+				{
+					printf(ERR_MAP_NOT_CLOSED);
+					return (0);
+				}
+			}
+		}
 	}
 	return (1);
 }

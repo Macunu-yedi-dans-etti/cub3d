@@ -93,7 +93,7 @@ int	parse_file(t_game *game, char *filename)
 		return (0);
 	if (!parse_colors(game, lines))
 		return (0);
-	if (!parse_map(game, lines, 6))
+	if (!parse_map(game, lines, 0))
 		return (0);
 	return (1);
 }

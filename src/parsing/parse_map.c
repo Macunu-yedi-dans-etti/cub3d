@@ -109,7 +109,7 @@ int	parse_map(t_game *game, char **lines, int start)
 		return (0);
 	m_ln = find_player_position(game);
 	if (m_ln == 1)
-		return (1);
+		return (validate_map(game));
 	if (m_ln == 0)
 		printf(ERR_PLAYER_MISSING);
 	else
