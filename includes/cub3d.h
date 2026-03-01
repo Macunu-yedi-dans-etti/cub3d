@@ -211,6 +211,8 @@ int		is_map_line(char *line);
 void	rgb_free(char **rgb);
 int		is_valid_rgb_token(char *s);
 int		is_invalid_color_string(char *line);
+int		free_ret_err(char **arr, char *err);
+int		parse_color_line(char *line, t_color *color);
 
 void	raycast(t_game *game);
 void	init_ray(t_game *game, t_ray *ray, int x);

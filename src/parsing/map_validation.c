@@ -87,7 +87,6 @@ int	validate_map(t_game *game)
 
 	if (game->map.height < 3 || game->map.width < 3)
 		return (printf(ERR_MAP_EMPTY), 0);
-	// TEKRAR KONTROL EDİYORUZ
 	if (game->map.player_start_x == -1 || game->map.player_start_y == -1)
 		return (printf(ERR_PLAYER_MISSING), 0);
 	i = -1;

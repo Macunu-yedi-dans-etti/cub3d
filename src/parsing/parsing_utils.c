@@ -76,3 +76,35 @@ int	is_invalid_color_string(char *line)
 		return (1);
 	return (0);
 }
+
+int	free_ret_err(char **arr, char *err)
+{
+	if (arr)
+		rgb_free(arr);
+	if (err)
+		printf("%s", err);
+	return (0);
+}
+
+int	parse_color_line(char *line, t_color *color)
+{
+	char	**rgb;
+
+	if (is_invalid_color_string(line))
+		return (free_ret_err(NULL, ERR_COLOR_INVALID));
+	rgb = ft_split(line + 2, ',');
+	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+		return (free_ret_err(rgb, ERR_COLOR_INVALID));
+	if (!is_valid_rgb_token(rgb[0]) || !is_valid_rgb_token(rgb[1])
+		|| !is_valid_rgb_token(rgb[2]))
+		return (free_ret_err(rgb, ERR_COLOR_INVALID));
+	color->r = ft_atoi(rgb[0]);
+	color->g = ft_atoi(rgb[1]);
+	color->b = ft_atoi(rgb[2]);
+	if (color->r < 0 || color->r > 255 || color->g < 0 || color->g > 255
+		|| color->b < 0 || color->b > 255)
+		return (free_ret_err(rgb, ERR_COLOR_RANGE));
+	color->rgb = create_rgb(color->r, color->g, color->b);
+	rgb_free(rgb);
+	return (1);
+}

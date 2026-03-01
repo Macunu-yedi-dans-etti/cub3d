@@ -12,7 +12,7 @@
 
 #include "../../includes/cub3d.h"
 
-// bu fonksiyon map satırını kontrol eder, sadece 0,1,N,S,E,W karakterleri kabul edilir
+// Sadece 0,1,N,S,E,W karakterlerini kabul eden map satir kontrolu.
 int	is_map_line(char *line)
 {
 	int	i;

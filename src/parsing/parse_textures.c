@@ -56,60 +56,43 @@ int	parse_textures(t_game *game, char **lines)
 	return (1);
 }
 
-static int	parse_color_line(char *line, t_color *color)
+static int	check_fc(t_game *g, char *ln, int *f, int *c)
 {
-	char	**rgb;
-
-	if (is_invalid_color_string(line))
-		return (printf(ERR_COLOR_INVALID), 0);
-	rgb = ft_split(line + 2, ',');
-	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+	if (ln[0] == 'F' && ln[1] == ' ')
 	{
-		if (rgb)
-			rgb_free(rgb);
-		return (printf(ERR_COLOR_INVALID), 0);
+		if ((*f)++ && printf(ERR_FLOOR_DUP))
+			return (0);
+		if (!parse_color_line(ln, &g->floor))
+			return (0);
 	}
-	if (!is_valid_rgb_token(rgb[0]) || !is_valid_rgb_token(rgb[1])
-		|| !is_valid_rgb_token(rgb[2]))
-		return (rgb_free(rgb), printf(ERR_COLOR_INVALID), 0);
-	color->r = ft_atoi(rgb[0]);
-	color->g = ft_atoi(rgb[1]);
-	color->b = ft_atoi(rgb[2]);
-	if (color->r < 0 || color->r > 255 || color->g < 0 || color->g > 255
-		|| color->b < 0 || color->b > 255)
-		return (rgb_free(rgb), printf(ERR_COLOR_RANGE), 0);
-	color->rgb = create_rgb(color->r, color->g, color->b);
-	rgb_free(rgb);
+	else if (ln[0] == 'C' && ln[1] == ' ')
+	{
+		if ((*c)++ && printf(ERR_CEILING_DUP))
+			return (0);
+		if (!parse_color_line(ln, &g->ceiling))
+			return (0);
+	}
 	return (1);
 }
 
 int	parse_colors(t_game *game, char **lines)
 {
 	int	i;
-	int	f_set;
-	int	c_set;
+	int	f;
+	int	c;
 
 	i = -1;
-	f_set = 0;
-	c_set = 0;
+	f = 0;
+	c = 0;
 	while (lines[++i])
 	{
-		if (lines[i][0] == 'F' && lines[i][1] == ' ')
-		{
-			if (f_set++ && printf(ERR_FLOOR_DUP))
-				return (0);
-			if (!parse_color_line(lines[i], &game->floor))
-				return (0);
-		}
-		else if (lines[i][0] == 'C' && lines[i][1] == ' ')
-		{
-			if (c_set++ && printf(ERR_CEILING_DUP))
-				return (0);
-			if (!parse_color_line(lines[i], &game->ceiling))
-				return (0);
-		}
+		if (!check_fc(game, lines[i], &f, &c))
+			return (0);
 	}
-	if (!f_set || !c_set)
-		return (printf(ERR_COLOR_MISSING), 0);
+	if (!f || !c)
+	{
+		printf(ERR_COLOR_MISSING);
+		return (0);
+	}
 	return (1);
 }
