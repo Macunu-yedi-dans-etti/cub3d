@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
-/*   Updated: 2026/02/25 14:17:26 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/01 12:56:30 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@
 # define MOVE_SPEED 0.08
 # define ROT_SPEED 0.07
 
-# define KEY_ESC 53
-# define KEY_W 13
-# define KEY_A 0
-# define KEY_S 1
-# define KEY_D 2
-# define KEY_LEFT 124
-# define KEY_RIGHT 123
-/*
+// # define KEY_ESC 53
+// # define KEY_W 13
+// # define KEY_A 0
+// # define KEY_S 1
+// # define KEY_D 2
+// # define KEY_LEFT 124
+// # define KEY_RIGHT 123
+
 # define KEY_ESC 65307
 # define KEY_W 119
 # define KEY_A 97
@@ -44,7 +44,7 @@
 # define KEY_D 100
 # define KEY_LEFT 65363
 # define KEY_RIGHT 65361
-*/
+
 # define WALL '1'
 # define EMPTY '0'
 # define PLAYER_N 'N'
