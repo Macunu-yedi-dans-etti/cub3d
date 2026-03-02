@@ -70,6 +70,8 @@
 # define ERR_MLX_WIN "Error\nWindow creation failed\n"
 # define ERR_MLX_IMG "Error\nImage creation failed\n"
 # define ERR_TEXTURE_LOAD "Error\nTexture loading failed\n"
+# define ERR_TEX_DUP "Error\nDuplicate %s texture\n"
+# define ERR_TEX_INVALID_EXT "Error\nTexture %s must have .xpm extension\n"
 
 typedef struct s_gc_node
 {

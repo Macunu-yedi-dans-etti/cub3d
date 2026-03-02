@@ -15,21 +15,30 @@
 static int	set_tex(t_game *game, char *line, char **tex, char *err)
 {
 	int	i;
+	int	len;
 
 	if (*tex)
 	{
-		printf("Error\nDuplicate %s texture\n", err);
+		printf(ERR_TEX_DUP, err);
 		return (0);
 	}
 	i = 2;
 	while (line[i] == ' ')
 		i++;
 	*tex = gc_strdup(&game->gc, line + i);
+	len = ft_strlen(*tex);
+	if (len < 4 || ft_strcmp(*tex + len - 4, ".xpm") != 0)
+	{
+		printf(ERR_TEX_INVALID_EXT, err);
+		return (0);
+	}
 	return (1);
 }
 
 static int	assign_texture(t_game *game, char *line)
 {
+	while (*line == ' ')
+		line++;
 	if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
 		return (set_tex(game, line, &game->texture.north, "north (NO)"));
 	if (line[0] == 'S' && line[1] == 'O' && line[2] == ' ')
@@ -63,6 +72,8 @@ int	parse_textures(t_game *game, char **lines)
 
 static int	check_fc(t_game *g, char *ln, int *f, int *c)
 {
+	while (*ln == ' ')
+		ln++;
 	if (ln[0] == 'F' && ln[1] == ' ')
 	{
 		if ((*f)++ && printf(ERR_FLOOR_DUP))
