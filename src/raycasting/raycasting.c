@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:51 by haloztur          #+#    #+#             */
-/*   Updated: 2025/11/09 13:15:27 by haloztur         ###   ########.fr       */
+/*   Updated: 2026/03/02 17:09:48 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	calculate_wall_height(t_game *game, t_ray *ray)
 	if (ray->draw_end >= WIN_HEIGHT)
 		ray->draw_end = WIN_HEIGHT - 1;
 }
-static int get_texture_color(t_game *game, t_ray *ray, int tex_x, int tex_y)
+static int	get_texture_color(t_game *game, t_ray *ray, int tex_x, int tex_y)
 {
 	int	*north;
 	int	*south;
@@ -126,15 +126,15 @@ static int get_texture_color(t_game *game, t_ray *ray, int tex_x, int tex_y)
 	}
 }
 
-void draw_walls(t_game *game, t_ray *ray, int x)
+void	draw_walls(t_game *game, t_ray *ray, int x)
 {
-	double wall_x;
-	int tex_x;
-	double step;
-	double tex_pos;
-	int y;
-	int tex_y;
-	int color;
+	double	wall_x;
+	int		tex_x;
+	double	step;
+	double	tex_pos;
+	int		y;
+	int		tex_y;
+	int		color;
 
 	// Duvarın çarpma noktasını bul
 	if (ray->side == 0)
@@ -177,8 +177,8 @@ void draw_walls(t_game *game, t_ray *ray, int x)
 
 void raycast(t_game *game)
 {
-	t_ray ray;
-	int x;
+	t_ray	ray;
+	int		x;
 
 	x = 0;
 	while (x < WIN_WIDTH)

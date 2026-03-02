@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
-/*   Updated: 2026/03/01 15:39:52 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/02 17:34:59 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@
 # define PLAYER_W 'W'
 
 # define ERR_USAGE "Error\nUsage: ./cub3D <map.cub>\n"
-# define ERR_ARGS "Error\nInvalid number of arguments\n"
 # define ERR_FILE "Error\nCannot open file\n"
-# define ERR_FILE_NOT_FOUND "Error\nFile not found\n"
-# define ERR_FILE_PERMISSION "Error\nPermission denied\n"
 # define ERR_FILE_EXTENSION "Error\nFile must have .cub extension\n"
 # define ERR_MAP_INVALID "Error\nInvalid map\n"
 # define ERR_MAP_NOT_CLOSED "Error\nMap not surrounded by walls\n"
@@ -64,8 +61,6 @@
 # define ERR_MAP_EMPTY "Error\nEmpty map\n"
 # define ERR_PLAYER_MISSING "Error\nNo player found\n"
 # define ERR_PLAYER_MULTIPLE "Error\nMultiple players found\n"
-# define ERR_TEXTURE_MISSING "Error\nMissing texture\n"
-# define ERR_TEXTURE_INVALID "Error\nInvalid texture file\n"
 # define ERR_COLOR_INVALID "Error\nInvalid color format\n"
 # define ERR_COLOR_MISSING "Error\nFloor and ceiling color missing or invalid\n"
 # define ERR_COLOR_RANGE "Error\nColor values must be 0-255\n"
@@ -74,7 +69,6 @@
 # define ERR_MLX_INIT "Error\nMLX initialization failed\n"
 # define ERR_MLX_WIN "Error\nWindow creation failed\n"
 # define ERR_MLX_IMG "Error\nImage creation failed\n"
-# define ERR_MALLOC "Error\nMemory allocation failed\n"
 # define ERR_TEXTURE_LOAD "Error\nTexture loading failed\n"
 
 typedef struct s_gc_node
@@ -204,7 +198,7 @@ void	cleanup_game(t_game *game);
 int		parse_file(t_game *game, char *filename);
 int		parse_textures(t_game *game, char **lines);
 int		parse_colors(t_game *game, char **lines);
-int		parse_map(t_game *game, char **lines, int start);
+int		parse_map(t_game *game, char **lines, int start, int i);
 int		validate_map(t_game *game);
 int		find_player_position(t_game *game);
 int		is_map_line(char *line);

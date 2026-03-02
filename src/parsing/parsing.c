@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:45 by haloztur          #+#    #+#             */
-/*   Updated: 2026/03/01 15:45:01 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/02 17:25:48 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ int	parse_file(t_game *game, char *filename)
 		return (0);
 	if (!parse_colors(game, lines))
 		return (0);
-	if (!parse_map(game, lines, 0))
+	// Start a gerek var mı yok mu konuşulmalı
+	if (!parse_map(game, lines, 6,0))
 		return (0);
 	return (1);
 }

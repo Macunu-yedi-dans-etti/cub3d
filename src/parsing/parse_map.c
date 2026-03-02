@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:33 by haloztur          #+#    #+#             */
-/*   Updated: 2026/03/01 16:15:54 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/02 17:24:23 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_map_line(char *line)
 	while (line[i])
 	{
 		if (line[i] == '\t')
-			return (0);
+			return (1);
 		if (line[i] != '0' && line[i] != '1' && line[i] != 'N'
 			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W'
 			&& line[i] != ' ')
@@ -80,7 +80,10 @@ static int	load_map_grid(t_game *game, char **lines, int start)
 	{
 		game->map.grid[m_ln] = gc_strdup(&game->gc, lines[i]);
 		if (!game->map.grid[m_ln] || !game->map.grid[m_ln][0])
-			return (printf(ERR_MAP_INVALID), 0);
+		{
+			printf(ERR_MAP_INVALID);
+			return (0);
+		}
 		if ((int)ft_strlen(game->map.grid[m_ln]) > game->map.width)
 			game->map.width = ft_strlen(game->map.grid[m_ln]);
 		m_ln++;
@@ -90,16 +93,18 @@ static int	load_map_grid(t_game *game, char **lines, int start)
 	return (1);
 }
 
-int	parse_map(t_game *game, char **lines, int start)
+int	parse_map(t_game *game, char **lines, int start,int i)
 {
-	int	i;
 	int	m_ln;
 
 	i = start;
 	while (lines[i] && !is_map_line(lines[i]))
 		i++;
 	if (!lines[i])
-		return (printf(ERR_MAP_EMPTY), 0);
+	{
+		printf(ERR_MAP_EMPTY);
+		return (0);
+	}
 	m_ln = 0;
 	while (lines[i + m_ln])
 		m_ln++;

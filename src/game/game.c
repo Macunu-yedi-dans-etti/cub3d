@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:14 by haloztur          #+#    #+#             */
-/*   Updated: 2026/03/01 13:05:51 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/02 17:07:52 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,15 @@ void	init_game(t_game *game)
 	if (!game->mlx.mlx)
 		error_exit(game, ERR_MLX_INIT);
 	game->mlx.win = mlx_new_window(game->mlx.mlx, WIN_WIDTH,
-								   WIN_HEIGHT, WIN_TITLE);
+			WIN_HEIGHT, WIN_TITLE);
 	if (!game->mlx.win)
 		error_exit(game, ERR_MLX_WIN);
 	game->mlx.img = mlx_new_image(game->mlx.mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!game->mlx.img)
 		error_exit(game, ERR_MLX_IMG);
 	game->mlx.addr = mlx_get_data_addr(game->mlx.img,
-									   &game->mlx.bits_per_pixel, &game->mlx.line_length,
-									   &game->mlx.endian);
+			&game->mlx.bits_per_pixel, &game->mlx.line_length,
+			&game->mlx.endian);
 	init_player(game);
 	ft_memset(&game->keys, 0, sizeof(t_keys));
 	if (load_all_textures(game))
