@@ -29,13 +29,13 @@
 # define MOVE_SPEED 0.08
 # define ROT_SPEED 0.07
 
-// # define KEY_ESC 53
-// # define KEY_W 13
-// # define KEY_A 0
-// # define KEY_S 1
-// # define KEY_D 2
-// # define KEY_LEFT 124
-// # define KEY_RIGHT 123
+//# define KEY_ESC 53
+//# define KEY_W 13
+//# define KEY_A 0
+//# define KEY_S 1
+//# define KEY_D 2
+//# define KEY_LEFT 124
+//# define KEY_RIGHT 123
 
 # define KEY_ESC 65307
 # define KEY_W 119
@@ -57,6 +57,7 @@
 # define ERR_FILE_EXTENSION "Error\nFile must have .cub extension\n"
 # define ERR_MAP_INVALID "Error\nInvalid map\n"
 # define ERR_MAP_NOT_CLOSED "Error\nMap not surrounded by walls\n"
+# define ERR_MAP_DISCONNECTED "Error\nDisconnected map (multiple isolated areas found)\n"
 # define ERR_MAP_TAB "Error\nMap must not contain tab characters\n"
 # define ERR_MAP_EMPTY "Error\nEmpty map\n"
 # define ERR_PLAYER_MISSING "Error\nNo player found\n"
