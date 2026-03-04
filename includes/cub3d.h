@@ -199,8 +199,7 @@ int		game_loop(t_game *game);
 void	cleanup_game(t_game *game);
 
 int		parse_file(t_game *game, char *filename);
-int		parse_textures(t_game *game, char **lines);
-int		parse_colors(t_game *game, char **lines);
+int		parse_metadata(t_game *game, char **lines);
 int		parse_map(t_game *game, char **lines, int start, int i);
 int		validate_map(t_game *game);
 int		find_player_position(t_game *game);

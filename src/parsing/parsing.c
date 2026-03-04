@@ -73,8 +73,7 @@ char	**read_file(t_game *game, char *filename)
 	line = simple_get_line(fd, game);
 	while (line != NULL)
 	{
-		if (ft_strlen(line) > 0)
-			lines[count++] = line;
+		lines[count++] = line;
 		line = simple_get_line(fd, game);
 	}
 	lines[count] = NULL;
@@ -85,16 +84,15 @@ char	**read_file(t_game *game, char *filename)
 int	parse_file(t_game *game, char *filename)
 {
 	char	**lines;
+	int		map_start;
 
 	lines = read_file(game, filename);
 	if (!lines)
 		return (0);
-	if (!parse_textures(game, lines))
+	map_start = parse_metadata(game, lines);
+	if (map_start == -1)
 		return (0);
-	if (!parse_colors(game, lines))
-		return (0);
-	// Start a gerek var mı yok mu konuşulmalı
-	if (!parse_map(game, lines, 6,0))
+	if (!parse_map(game, lines, map_start, 0))
 		return (0);
 	return (1);
 }

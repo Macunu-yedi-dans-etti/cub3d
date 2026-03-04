@@ -108,3 +108,23 @@ int	parse_color_line(char *line, t_color *color)
 	rgb_free(rgb);
 	return (1);
 }
+
+int	is_valid_extension(char *filename)
+{
+	int		len;
+	char	*base;
+
+	if (!filename)
+		return (0);
+	len = ft_strlen(filename);
+	if (len < 4 || ft_strcmp(filename + len - 4, ".cub") != 0)
+		return (0);
+	base = ft_strrchr(filename, '/');
+	if (base)
+		base++;
+	else
+		base = filename;
+	if (ft_strcmp(base, ".cub") == 0)
+		return (0);
+	return (1);
+}

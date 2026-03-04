@@ -35,80 +35,67 @@ static int	set_tex(t_game *game, char *line, char **tex, char *err)
 	return (1);
 }
 
-static int	assign_texture(t_game *game, char *line)
+static int	assign_metadata(t_game *game, char *line, int *count)
 {
-	while (*line == ' ')
-		line++;
-	if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
-		return (set_tex(game, line, &game->texture.north, "north (NO)"));
-	if (line[0] == 'S' && line[1] == 'O' && line[2] == ' ')
-		return (set_tex(game, line, &game->texture.south, "south (SO)"));
-	if (line[0] == 'W' && line[1] == 'E' && line[2] == ' ')
-		return (set_tex(game, line, &game->texture.west, "west (WE)"));
-	if (line[0] == 'E' && line[1] == 'A' && line[2] == ' ')
-		return (set_tex(game, line, &game->texture.east, "east (EA)"));
-	return (1);
+	char	*tmp;
+
+	tmp = line;
+	while (*tmp == ' ')
+		tmp++;
+	if (!*tmp)
+		return (1);
+	if (!ft_strncmp(tmp, "NO ", 3) && set_tex(game, tmp, &game->texture.north, "NO") && ++(*count))
+		return (1);
+	if (!ft_strncmp(tmp, "SO ", 3) && set_tex(game, tmp, &game->texture.south, "SO") && ++(*count))
+		return (1);
+	if (!ft_strncmp(tmp, "WE ", 3) && set_tex(game, tmp, &game->texture.west, "WE") && ++(*count))
+		return (1);
+	if (!ft_strncmp(tmp, "EA ", 3) && set_tex(game, tmp, &game->texture.east, "EA") && ++(*count))
+		return (1);
+	if (!ft_strncmp(tmp, "F ", 2))
+	{
+		if (game->floor.rgb != -1 && printf(ERR_FLOOR_DUP)) return (0);
+		if (parse_color_line(tmp, &game->floor) && ++(*count))
+			return (1);
+		return (0);
+	}
+	if (!ft_strncmp(tmp, "C ", 2))
+	{
+		if (game->ceiling.rgb != -1 && printf(ERR_CEILING_DUP)) return (0);
+		if (parse_color_line(tmp, &game->ceiling) && ++(*count))
+			return (1);
+		return (0);
+	}
+	printf("Error\nInvalid line in metadata: %s\n", line);
+	return (0);
 }
 
-int	parse_textures(t_game *game, char **lines)
+int	parse_metadata(t_game *game, char **lines)
 {
 	int	i;
+	int	count;
 
 	i = 0;
-	while (lines[i])
+	count = 0;
+	game->floor.rgb = -1;
+	game->ceiling.rgb = -1;
+	while (lines[i] && count < 6)
 	{
-		if (!assign_texture(game, lines[i]))
-			return (0);
+		if (!assign_metadata(game, lines[i], &count))
+			return (-1);
 		i++;
 	}
-	if (!game->texture.north || !game->texture.south
-		|| !game->texture.west || !game->texture.east)
+	if (count < 6)
 	{
-		printf("Error\nMissing texture(s)\n");
-		return (0);
+		printf("Error\nMissing texture(s) or color(s)\n");
+		return (-1);
 	}
-	return (1);
-}
-
-static int	check_fc(t_game *g, char *ln, int *f, int *c)
-{
-	while (*ln == ' ')
-		ln++;
-	if (ln[0] == 'F' && ln[1] == ' ')
+	while (lines[i])
 	{
-		if ((*f)++ && printf(ERR_FLOOR_DUP))
-			return (0);
-		if (!parse_color_line(ln, &g->floor))
-			return (0);
+		char *tmp = lines[i];
+		while (*tmp == ' ') tmp++;
+		if (*tmp) break;
+		i++;
 	}
-	else if (ln[0] == 'C' && ln[1] == ' ')
-	{
-		if ((*c)++ && printf(ERR_CEILING_DUP))
-			return (0);
-		if (!parse_color_line(ln, &g->ceiling))
-			return (0);
-	}
-	return (1);
-}
-
-int	parse_colors(t_game *game, char **lines)
-{
-	int	i;
-	int	f;
-	int	c;
-
-	i = -1;
-	f = 0;
-	c = 0;
-	while (lines[++i])
-	{
-		if (!check_fc(game, lines[i], &f, &c))
-			return (0);
-	}
-	if (!f || !c)
-	{
-		printf(ERR_COLOR_MISSING);
-		return (0);
-	}
-	return (1);
+	return (i);
 }

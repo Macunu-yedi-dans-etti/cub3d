@@ -14,7 +14,6 @@
 
 static int	validate_args(int argc, char **argv)
 {
-	int	len;
 	int	fd;
 
 	if (argc != 2)
@@ -22,8 +21,7 @@ static int	validate_args(int argc, char **argv)
 		printf(ERR_USAGE);
 		return (0);
 	}
-	len = ft_strlen(argv[1]);
-	if (len < 4 || ft_strcmp(argv[1] + len - 4, ".cub") != 0)
+	if (!is_valid_extension(argv[1]))
 	{
 		printf(ERR_FILE_EXTENSION);
 		return (0);

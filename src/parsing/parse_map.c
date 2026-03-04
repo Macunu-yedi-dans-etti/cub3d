@@ -93,22 +93,35 @@ static int	load_map_grid(t_game *game, char **lines, int start)
 	return (1);
 }
 
-int	parse_map(t_game *game, char **lines, int start,int i)
+int	parse_map(t_game *game, char **lines, int start, int i)
 {
 	int	m_ln;
 
 	i = start;
-	while (lines[i] && !is_map_line(lines[i]))
-		i++;
-	if (!lines[i])
+	if (!lines[i] || !is_map_line(lines[i]))
 	{
-		printf(ERR_MAP_EMPTY);
+		if (!lines[i])
+			printf(ERR_MAP_EMPTY);
+		else
+			printf("Error\nJunk before map at line %d: %s\n", i + 1, lines[i]);
 		return (0);
 	}
 	m_ln = 0;
-	while (lines[i + m_ln])
+	while (lines[i + m_ln] && is_map_line(lines[i + m_ln]))
 		m_ln++;
 	game->map.height = m_ln;
+	int temp_i = i + m_ln;
+	while (lines[temp_i])
+	{
+		char *tmp = lines[temp_i];
+		while (*tmp == ' ') tmp++;
+		if (*tmp)
+		{
+			printf("Error\nJunk after map at line %d: %s\n", temp_i + 1, lines[temp_i]);
+			return (0);
+		}
+		temp_i++;
+	}
 	game->map.grid = gc_malloc(&game->gc, sizeof(char *) * (m_ln + 1));
 	if (!game->map.grid || !load_map_grid(game, lines, i))
 		return (0);
