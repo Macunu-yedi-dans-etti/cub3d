@@ -57,9 +57,11 @@
 # define ERR_FILE_EXTENSION "Error\nFile must have .cub extension\n"
 # define ERR_MAP_INVALID "Error\nInvalid map\n"
 # define ERR_MAP_NOT_CLOSED "Error\nMap not surrounded by walls\n"
-# define ERR_MAP_DISCONNECTED "Error\nDisconnected map (multiple isolated areas found)\n"
+# define ERR_MAP_DISCONNECTED "Error\nDisconnected map areas found\n"
 # define ERR_MAP_TAB "Error\nMap must not contain tab characters\n"
 # define ERR_MAP_EMPTY "Error\nEmpty map\n"
+# define ERR_MAP_LAST "Error\nMap is not the last element or multiple maps detected.\n"
+# define ERR_MAP_BEFORE "Error\nUnexpected line or character before map block.\n"
 # define ERR_PLAYER_MISSING "Error\nNo player found\n"
 # define ERR_PLAYER_MULTIPLE "Error\nMultiple players found\n"
 # define ERR_COLOR_INVALID "Error\nInvalid color format\n"
@@ -73,6 +75,8 @@
 # define ERR_TEXTURE_LOAD "Error\nTexture loading failed\n"
 # define ERR_TEX_DUP "Error\nDuplicate %s texture\n"
 # define ERR_TEX_INVALID_EXT "Error\nTexture %s must have .xpm extension\n"
+# define ERR_METADATA_INV "Error\nInvalid line in metadata: %s\n"
+# define ERR_METADATA_MISSING "Error\nMissing texture(s) or color(s)\n"
 
 typedef struct s_gc_node
 {
@@ -204,11 +208,13 @@ int		parse_map(t_game *game, char **lines, int start, int i);
 int		validate_map(t_game *game);
 int		find_player_position(t_game *game);
 int		is_map_line(char *line);
+int		load_map_grid(t_game *game, char **lines, int start);
 void	rgb_free(char **rgb);
 int		is_valid_rgb_token(char *s);
 int		is_invalid_color_string(char *line);
 int		free_ret_err(char **arr, char *err);
 int		parse_color_line(char *line, t_color *color);
+int		**allocate_reachable_matrix(t_game *game);
 
 void	raycast(t_game *game);
 void	init_ray(t_game *game, t_ray *ray, int x);

@@ -46,25 +46,6 @@ static int	check_cell_surrounded(t_game *game, int y, int x)
 	return (1);
 }
 
-static int	**allocate_reachable_matrix(t_game *game)
-{
-	int	**matrix;
-	int	i;
-
-	matrix = gc_malloc(&game->gc, sizeof(int *) * game->map.height);
-	if (!matrix)
-		return (NULL);
-	i = -1;
-	while (++i < game->map.height)
-	{
-		matrix[i] = gc_malloc(&game->gc, sizeof(int) * game->map.width);
-		if (!matrix[i])
-			return (NULL);
-		ft_bzero(matrix[i], sizeof(int) * game->map.width);
-	}
-	return (matrix);
-}
-
 static int	validate_cell(t_game *game, int i, int j, int **reachable)
 {
 	char	c;
@@ -76,13 +57,9 @@ static int	validate_cell(t_game *game, int i, int j, int **reachable)
 		return (printf(ERR_MAP_INVALID), 0);
 	if (c == '0' || ft_strchr("NSEW", c))
 	{
-		if (reachable[i][j])
-		{
-			if (!check_cell_surrounded(game, i, j))
-				return (printf(ERR_MAP_NOT_CLOSED), 0);
-		}
-		else if (!is_valid_pos(game, j + 1, i) || !is_valid_pos(game, j - 1, i)
-			|| !is_valid_pos(game, j, i + 1) || !is_valid_pos(game, j, i - 1))
+		if (!reachable[i][j])
+			return (printf(ERR_MAP_DISCONNECTED), 0);
+		if (!check_cell_surrounded(game, i, j))
 			return (printf(ERR_MAP_NOT_CLOSED), 0);
 	}
 	return (1);

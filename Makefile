@@ -5,7 +5,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 # Platform-specific MLX link flags
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Darwin)
-MLX_FLAGS = -lm -lmlx -framework OpenGL -framework AppKit
+MLX_FLAGS = -L/usr/X11/lib -lXext -lX11 -lm -lmlx -framework OpenGL -framework AppKit
 else
 MLX_FLAGS = -lm -lmlx -lXext -lX11
 endif
@@ -15,8 +15,9 @@ MLX_PATH = minilibx-linux/
 LIBFT = $(LIBFT_PATH)libft.a
 MLX = $(MLX_PATH)libmlx.a
 
-SRC = src/main.c src/utils/gc.c src/utils/utils.c src/parsing/parsing.c \
-	src/parsing/parse_textures.c src/parsing/parsing_utils.c \
+SRC = src/main.c src/utils/gc.c src/utils/utils.c src/utils/utils_two.c \
+	src/parsing/parsing.c src/parsing/parse_textures.c \
+	src/parsing/parsing_utils.c src/parsing/map_utils.c \
 	src/parsing/parse_map.c src/parsing/map_validation.c \
 	src/game/game.c src/game/movement.c src/raycasting/raycasting.c \
 	src/game/textures.c

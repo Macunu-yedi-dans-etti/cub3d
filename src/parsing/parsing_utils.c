@@ -12,16 +12,6 @@
 
 #include "../../includes/cub3d.h"
 
-void	rgb_free(char **rgb)
-{
-	int	i;
-
-	i = 0;
-	while (rgb[i])
-		free(rgb[i++]);
-	free(rgb);
-}
-
 int	is_valid_rgb_token(char *s)
 {
 	int	i;
@@ -109,22 +99,21 @@ int	parse_color_line(char *line, t_color *color)
 	return (1);
 }
 
-int	is_valid_extension(char *filename)
+int	**allocate_reachable_matrix(t_game *game)
 {
-	int		len;
-	char	*base;
+	int	**matrix;
+	int	i;
 
-	if (!filename)
-		return (0);
-	len = ft_strlen(filename);
-	if (len < 4 || ft_strcmp(filename + len - 4, ".cub") != 0)
-		return (0);
-	base = ft_strrchr(filename, '/');
-	if (base)
-		base++;
-	else
-		base = filename;
-	if (ft_strcmp(base, ".cub") == 0)
-		return (0);
-	return (1);
+	matrix = gc_malloc(&game->gc, sizeof(int *) * game->map.height);
+	if (!matrix)
+		return (NULL);
+	i = -1;
+	while (++i < game->map.height)
+	{
+		matrix[i] = gc_malloc(&game->gc, sizeof(int) * game->map.width);
+		if (!matrix[i])
+			return (NULL);
+		ft_bzero(matrix[i], sizeof(int) * game->map.width);
+	}
+	return (matrix);
 }
