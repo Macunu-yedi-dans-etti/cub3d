@@ -35,39 +35,6 @@ int	is_map_line(char *line)
 	return (has_cnt);
 }
 
-void	set_player(t_game *game, int x, int y, int *count)
-{
-	(*count)++;
-	if (*count == 1)
-	{
-		game->map.player_start_x = x;
-		game->map.player_start_y = y;
-		game->map.player_start_dir = game->map.grid[y][x];
-	}
-	game->map.grid[y][x] = '0';
-}
-
-int	find_player_position(t_game *game)
-{
-	int	i;
-	int	j;
-	int	count;
-
-	count = 0;
-	game->map.player_start_x = -1;
-	game->map.player_start_y = -1;
-	i = -1;
-	while (++i < game->map.height)
-	{
-		j = -1;
-		while (game->map.grid[i][++j])
-			if (game->map.grid[i][j] == 'N' || game->map.grid[i][j] == 'S'
-				|| game->map.grid[i][j] == 'E' || game->map.grid[i][j] == 'W')
-				set_player(game, j, i, &count);
-	}
-	return (count);
-}
-
 int	load_map_grid(t_game *game, char **lines, int start)
 {
 	int	i;

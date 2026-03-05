@@ -25,12 +25,48 @@ static int	check_chars_after_map(char **lines, int start)
 			tmp++;
 		if (*tmp)
 		{
-			printf(ERR_MAP_LAST);
+			if (is_map_line(lines[i]))
+				printf(ERR_MAP_LAST);
+			else
+				printf(ERR_MAP_FORBIDDEN, lines[i]);
 			return (0);
 		}
 		i++;
 	}
 	return (1);
+}
+
+static void	set_player(t_game *game, int x, int y, int *count)
+{
+	(*count)++;
+	if (*count == 1)
+	{
+		game->map.player_start_x = x;
+		game->map.player_start_y = y;
+		game->map.player_start_dir = game->map.grid[y][x];
+	}
+	game->map.grid[y][x] = '0';
+}
+
+static int	find_player_position(t_game *game)
+{
+	int	i;
+	int	j;
+	int	count;
+
+	count = 0;
+	game->map.player_start_x = -1;
+	game->map.player_start_y = -1;
+	i = -1;
+	while (++i < game->map.height)
+	{
+		j = -1;
+		while (game->map.grid[i][++j])
+			if (game->map.grid[i][j] == 'N' || game->map.grid[i][j] == 'S'
+				|| game->map.grid[i][j] == 'E' || game->map.grid[i][j] == 'W')
+				set_player(game, j, i, &count);
+	}
+	return (count);
 }
 
 static int	validate_and_check_player(t_game *game)
