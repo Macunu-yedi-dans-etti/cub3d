@@ -12,28 +12,32 @@
 
 #include "../../includes/cub3d.h"
 
-static int	set_tex(t_game *game, char *line, char **tex, char *err)
+static int	set_tex(t_game *game, char *line, char **tex, int i)
 {
-	int		i;
 	int		len;
 	char	*base;
 
-	if (*tex && printf(ERR_TEX_DUP, err))
+	if (*tex && printf(ERR_TEX_DUP, line))
 		return (0);
-	i = 2;
 	while (line[i] == ' ')
 		i++;
 	*tex = gc_strdup(&game->gc, line + i);
 	len = ft_strlen(*tex);
 	if (len < 4 || ft_strcmp(*tex + len - 4, ".xpm") != 0)
-		return (printf(ERR_TEX_INVALID_EXT, err), 0);
+	{
+		printf(ERR_TEX_INVALID_EXT, line);
+		return (0);
+	}
 	base = ft_strrchr(*tex, '/');
-	if (base)
-		base++;
-	else
+	if (!base)
 		base = *tex;
+	else
+		base++;
 	if (ft_strcmp(base, ".xpm") == 0)
-		return (printf(ERR_TEX_INVALID_EXT, err), 0);
+	{
+		printf(ERR_TEX_INVALID_EXT, line);
+		return (0);
+	}
 	return (1);
 }
 
@@ -54,11 +58,6 @@ static int	assign_fc(t_game *game, char *tmp, int *count)
 			return (0);
 		res = parse_color_line(tmp, &game->ceiling);
 	}
-	else
-	{
-		printf(ERR_METADATA_INV, tmp);
-		return (0);
-	}
 	if (res)
 		(*count)++;
 	return (res);
@@ -70,13 +69,13 @@ static int	assign_textures(t_game *game, char *tmp, int *count)
 
 	res = 0;
 	if (!ft_strncmp(tmp, "NO ", 3))
-		res = set_tex(game, tmp, &game->texture.north, "NO");
+		res = set_tex(game, tmp, &game->texture.north, 2);
 	else if (!ft_strncmp(tmp, "SO ", 3))
-		res = set_tex(game, tmp, &game->texture.south, "SO");
+		res = set_tex(game, tmp, &game->texture.south, 2);
 	else if (!ft_strncmp(tmp, "WE ", 3))
-		res = set_tex(game, tmp, &game->texture.west, "WE");
+		res = set_tex(game, tmp, &game->texture.west, 2);
 	else if (!ft_strncmp(tmp, "EA ", 3))
-		res = set_tex(game, tmp, &game->texture.east, "EA");
+		res = set_tex(game, tmp, &game->texture.east, 2);
 	else
 		return (0);
 	if (res)
@@ -87,17 +86,19 @@ static int	assign_textures(t_game *game, char *tmp, int *count)
 static int	assign_metadata(t_game *game, char *line, int *count)
 {
 	char	*tmp;
-	int		res;
 
 	tmp = line;
 	while (*tmp == ' ')
 		tmp++;
 	if (!*tmp)
 		return (1);
-	res = assign_textures(game, tmp, count);
-	if (res)
-		return (res);
-	return (assign_fc(game, tmp, count));
+	if (!ft_strncmp(tmp, "NO ", 3) || !ft_strncmp(tmp, "SO ", 3)
+		|| !ft_strncmp(tmp, "WE ", 3) || !ft_strncmp(tmp, "EA ", 3))
+		return (assign_textures(game, tmp, count));
+	if (!ft_strncmp(tmp, "F ", 2) || !ft_strncmp(tmp, "C ", 2))
+		return (assign_fc(game, tmp, count));
+	printf(ERR_METADATA_INV, line);
+	return (0);
 }
 
 int	parse_metadata(t_game *game, char **lines)

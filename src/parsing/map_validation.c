@@ -24,7 +24,7 @@ static int	is_valid_pos(t_game *game, int x, int y)
 static void	flood_fill(t_game *game, int **reachable, int x, int y)
 {
 	if (!is_valid_pos(game, x, y) || reachable[y][x]
-		|| game->map.grid[y][x] == '1' || game->map.grid[y][x] == ' ')
+		|| game->map.grid[y][x] == ' ')
 		return ;
 	reachable[y][x] = 1;
 	flood_fill(game, reachable, x + 1, y);
@@ -53,12 +53,12 @@ static int	validate_cell(t_game *game, int i, int j, int **reachable)
 	c = game->map.grid[i][j];
 	if (c == '\t')
 		return (printf(ERR_MAP_TAB), 0);
-	if (c != '0' && c != '1' && c != ' ' && !ft_strchr("NSEW", c))
+	if (c != '0' && !ft_strchr("NSEW", c) && c != '1' && c != ' ')
 		return (printf(ERR_MAP_INVALID), 0);
+	if ((c == '0' || ft_strchr("NSEW", c)) && !reachable[i][j])
+		return (printf(ERR_MAP_DISCONNECTED), 0);
 	if (c == '0' || ft_strchr("NSEW", c))
 	{
-		if (!reachable[i][j])
-			return (printf(ERR_MAP_DISCONNECTED), 0);
 		if (!check_cell_surrounded(game, i, j))
 			return (printf(ERR_MAP_NOT_CLOSED), 0);
 	}
