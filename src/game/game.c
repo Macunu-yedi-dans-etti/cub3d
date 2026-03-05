@@ -107,7 +107,7 @@ void 	cleanup_game(t_game *game)
 
 	if (game->mlx.mlx)
 	{
-		//mlx_destroy_display(game->mlx.mlx);
+		mlx_destroy_display(game->mlx.mlx);
 		free(game->mlx.mlx);
 	}
 	gc_free_all(&game->gc);
