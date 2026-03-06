@@ -20,7 +20,7 @@ SRC = src/main.c src/utils/gc.c src/utils/utils.c src/utils/utils_two.c \
 	src/parsing/parsing_utils.c src/parsing/map_utils.c \
 	src/parsing/parse_map.c src/parsing/map_validation.c \
 	src/game/game.c src/game/movement.c src/raycasting/raycasting.c \
-	src/game/textures.c
+	src/game/textures.c src/utils/get_next_line.c
 
 OBJ = $(SRC:.c=.o)
 

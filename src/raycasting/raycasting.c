@@ -126,7 +126,7 @@ static int	get_texture_color(t_game *game, t_ray *ray, int tex_x, int tex_y)
 	}
 }
 
-void	draw_walls(t_game *game, t_ray *ray, int x)
+static void	draw_walls(t_game *game, t_ray *ray, int x)
 {
 	double	wall_x;
 	int		tex_x;

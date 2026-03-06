@@ -22,6 +22,10 @@
 # include "../minilibx-linux/mlx.h"
 # include "libft/libft.h"
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
 # define WIN_WIDTH 900
 # define WIN_HEIGHT 900
 # define WIN_TITLE "Cub3D"
@@ -220,10 +224,6 @@ void	raycast(t_game *game);
 void	init_ray(t_game *game, t_ray *ray, int x);
 void	perform_dda(t_game *game, t_ray *ray);
 void	calculate_wall_height(t_game *game, t_ray *ray);
-
-void	render_frame(t_game *game);
-void	draw_background(t_game *game);
-void	draw_wall(t_game *game, t_ray *ray, int x);
 void	put_pixel(t_game *game, int x, int y, int color);
 
 int		handle_key_press(int keycode, t_game *game);
@@ -236,7 +236,7 @@ int		close_window(t_game *game);
 void	error_exit(t_game *game, char *message);
 int		is_valid_extension(char *filename);
 int		create_rgb(int r, int g, int b);
-char	**read_file_lines(char *filename, t_gc *gc);
+char	*get_next_line(int fd);
 
 int		load_all_textures(t_game *game);
 

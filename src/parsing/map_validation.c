@@ -52,7 +52,10 @@ static int	validate_cell(t_game *game, int i, int j, int **reachable)
 
 	c = game->map.grid[i][j];
 	if (c == '\t')
-		return (printf(ERR_MAP_TAB), 0);
+	{
+		printf(ERR_MAP_TAB);
+		return (0);
+	}
 	if (c != '0' && c != '1' && c != ' ' && !ft_strchr("NSEW", c))
 	{
 		printf(ERR_MAP_FORBIDDEN, game->map.grid[i]);
@@ -63,11 +66,17 @@ static int	validate_cell(t_game *game, int i, int j, int **reachable)
 		if (reachable[i][j])
 		{
 			if (!check_cell_surrounded(game, i, j))
-				return (printf(ERR_MAP_NOT_CLOSED), 0);
+			{
+				printf(ERR_MAP_NOT_CLOSED);
+				return (0);
+			}
 		}
 		else if (!is_valid_pos(game, j + 1, i) || !is_valid_pos(game, j - 1, i)
 			|| !is_valid_pos(game, j, i + 1) || !is_valid_pos(game, j, i - 1))
-			return (printf(ERR_MAP_NOT_CLOSED), 0);
+		{
+			printf(ERR_MAP_NOT_CLOSED);
+			return (0);
+		}
 	}
 	return (1);
 }
@@ -79,7 +88,10 @@ int	validate_map(t_game *game)
 	int	j;
 
 	if (game->map.player_start_x == -1 || game->map.player_start_y == -1)
-		return (printf(ERR_PLAYER_MISSING), 0);
+	{
+		printf(ERR_PLAYER_MISSING);
+		return (0);
+	}
 	reachable = allocate_reachable_matrix(game);
 	if (!reachable)
 		return (0);

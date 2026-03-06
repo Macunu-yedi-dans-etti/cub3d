@@ -12,48 +12,26 @@
 
 #include "../../includes/cub3d.h"
 
-// Tek seferde dosyadan kucuk bir blok okur.
-// 8191 byte okunur cunku buffer 8192 boyutludur (son char '\0')
-// Buradan donen deger okunan byte sayisini verir.
-static int	fill_buffer(int fd, char *buffer, int *pos, int *size)
-{
-	*size = read(fd, buffer, 8191);
-	*pos = 0;
-	return (*size);
-}
 
-// Gecici satir bufferinin sonuna '\0' koyar ve gc ile kopyalar.
-static char	*get_processed_line(t_game *game, char *line_tmp, int i)
+static int	get_line_count(char *filename)
 {
-	line_tmp[i] = '\0';
-	return (gc_strdup(&game->gc, line_tmp));
-}
+	int		fd;
+	int		count;
+	char	*line;
 
-// Dosyadan satir okuyan get_next_line benzeri fonksiyon.
-// - Static buffer ve indexler kullanarak veriyi cok kez tuketir.
-// - 8192 makul max satir uzunlugu (1 byte gecerli null icindir).
-static char	*simple_get_line(int fd, t_game *game)
-{
-	static char	buf[8192];
-	static int	p = 0;
-	static int	s = 0;
-	char		ln[8192];
-	int			i;
-
-	i = 0;
-	while (!(p >= s && fill_buffer(fd, buf, &p, &s) <= 0)
-		&& i < 8191 && buf[p] != '\n')
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	count = 0;
+	line = get_next_line(fd);
+	while (line)
 	{
-		if (buf[p] != '\r')
-			ln[i++] = buf[p++];
-		else
-			p++;
+		free(line);
+		count++;
+		line = get_next_line(fd);
 	}
-	if (i < 8191 && p < s && buf[p] == '\n')
-		p++;
-	if (i == 0 && s <= 0)
-		return (NULL);
-	return (get_processed_line(game, ln, i));
+	close(fd);
+	return (count);
 }
 
 char	**read_file(t_game *game, char *filename)
@@ -62,19 +40,23 @@ char	**read_file(t_game *game, char *filename)
 	char	**lines;
 	char	*line;
 	int		count;
+	int		line_count;
 
+	line_count = get_line_count(filename);
+	if (line_count <= 0)
+		return (NULL);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	lines = gc_malloc(&game->gc, sizeof(char *) * 1000);
+	lines = gc_malloc(&game->gc, sizeof(char *) * (line_count + 1));
 	if (!lines)
 		return (NULL);
 	count = 0;
-	line = simple_get_line(fd, game);
+	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		lines[count++] = line;
-		line = simple_get_line(fd, game);
+		lines[count++] = gc_track(&game->gc, line);
+		line = get_next_line(fd);
 	}
 	lines[count] = NULL;
 	close(fd);
