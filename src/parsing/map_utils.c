@@ -6,11 +6,20 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 22:00:00 by musoysal          #+#    #+#             */
-/*   Updated: 2026/03/04 22:00:00 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/07 16:50:00 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+int	is_valid_pos(t_game *game, int x, int y)
+{
+	if (y < 0 || y >= game->map.height)
+		return (0);
+	if (x < 0 || x >= (int)ft_strlen(game->map.grid[y]))
+		return (0);
+	return (1);
+}
 
 int	is_map_line(char *line)
 {
@@ -54,5 +63,23 @@ int	load_map_grid(t_game *game, char **lines, int start)
 		i++;
 	}
 	game->map.grid[m_ln] = NULL;
+	return (1);
+}
+
+int	check_all_cells(t_game *game, int **reachable)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (++i < game->map.height)
+	{
+		j = -1;
+		while (game->map.grid[i][++j])
+		{
+			if (!validate_cell(game, i, j, reachable))
+				return (0);
+		}
+	}
 	return (1);
 }

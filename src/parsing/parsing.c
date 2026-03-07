@@ -12,7 +12,6 @@
 
 #include "../../includes/cub3d.h"
 
-
 static int	get_line_count(char *filename)
 {
 	int		fd;
@@ -34,33 +33,46 @@ static int	get_line_count(char *filename)
 	return (count);
 }
 
+static void	trim_line(char *line)
+{
+	int	len;
+
+	len = ft_strlen(line);
+	if (len > 0 && line[len - 1] == '\n')
+		line[len - 1] = '\0';
+}
+
+static char	**allocate_lines(t_game *game, int line_count)
+{
+	char	**lines;
+
+	if (line_count <= 0)
+	{
+		printf(ERR_MAP_EMPTY);
+		return (NULL);
+	}
+	lines = gc_malloc(&game->gc, sizeof(char *) * (line_count + 1));
+	return (lines);
+}
+
 char	**read_file(t_game *game, char *filename)
 {
 	int		fd;
 	char	**lines;
 	char	*line;
 	int		count;
-	int		line_count;
 
-	line_count = get_line_count(filename);
-	if (line_count <= 0)
-	{
-		printf(ERR_MAP_EMPTY);
+	lines = allocate_lines(game, get_line_count(filename));
+	if (!lines)
 		return (NULL);
-	}
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (NULL);
-	lines = gc_malloc(&game->gc, sizeof(char *) * (line_count + 1));
-	if (!lines)
 		return (NULL);
 	count = 0;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		int len = ft_strlen(line);
-		if (len > 0 && line[len - 1] == '\n')
-			line[len - 1] = '\0';
+		trim_line(line);
 		lines[count++] = gc_track(&game->gc, line);
 		line = get_next_line(fd);
 	}

@@ -12,15 +12,6 @@
 
 #include "../../includes/cub3d.h"
 
-static int	is_valid_pos(t_game *game, int x, int y)
-{
-	if (y < 0 || y >= game->map.height)
-		return (0);
-	if (x < 0 || x >= (int)ft_strlen(game->map.grid[y]))
-		return (0);
-	return (1);
-}
-
 static void	flood_fill(t_game *game, int **reachable, int x, int y)
 {
 	if (!is_valid_pos(game, x, y) || reachable[y][x]
@@ -46,46 +37,46 @@ static int	check_cell_surrounded(t_game *game, int y, int x)
 	return (1);
 }
 
-static int	validate_cell(t_game *game, int i, int j, int **reachable)
+static int	check_walls(t_game *game, int i, int j, int **reachable)
 {
-	char	c;
-
-	c = game->map.grid[i][j];
-	if (c == '\t')
+	if (reachable[i][j])
 	{
-		printf(ERR_MAP_TAB);
-		return (0);
-	}
-	if (c != '0' && c != '1' && c != ' ' && !ft_strchr("NSEW", c))
-	{
-		printf(ERR_MAP_FORBIDDEN, game->map.grid[i]);
-		return (0);
-	}
-	if (c == '0' || ft_strchr("NSEW", c))
-	{
-		if (reachable[i][j])
-		{
-			if (!check_cell_surrounded(game, i, j))
-			{
-				printf(ERR_MAP_NOT_CLOSED);
-				return (0);
-			}
-		}
-		else if (!is_valid_pos(game, j + 1, i) || !is_valid_pos(game, j - 1, i)
-			|| !is_valid_pos(game, j, i + 1) || !is_valid_pos(game, j, i - 1))
+		if (!check_cell_surrounded(game, i, j))
 		{
 			printf(ERR_MAP_NOT_CLOSED);
 			return (0);
 		}
 	}
+	else if (!is_valid_pos(game, j + 1, i) || !is_valid_pos(game, j - 1, i)
+		|| !is_valid_pos(game, j, i + 1) || !is_valid_pos(game, j, i - 1))
+	{
+		printf(ERR_MAP_NOT_CLOSED);
+		return (0);
+	}
+	return (1);
+}
+
+int	validate_cell(t_game *game, int i, int j, int **reachable)
+{
+	char	c;
+
+	c = game->map.grid[i][j];
+	if (c == '\t' && printf(ERR_MAP_TAB))
+		return (0);
+	if (c != '0' && c != '1' && c != ' ' && !ft_strchr("NSEW", c))
+	{
+		printf(ERR_MAP_FORBIDDEN, game->map.grid[i]);
+		return (0);
+	}
+	if ((c == '0' || ft_strchr("NSEW", c))
+		&& !check_walls(game, i, j, reachable))
+		return (0);
 	return (1);
 }
 
 int	validate_map(t_game *game)
 {
 	int	**reachable;
-	int	i;
-	int	j;
 
 	if (game->map.player_start_x == -1 || game->map.player_start_y == -1)
 	{
@@ -97,15 +88,5 @@ int	validate_map(t_game *game)
 		return (0);
 	flood_fill(game, reachable, game->map.player_start_x,
 		game->map.player_start_y);
-	i = -1;
-	while (++i < game->map.height)
-	{
-		j = -1;
-		while (game->map.grid[i][++j])
-		{
-			if (!validate_cell(game, i, j, reachable))
-				return (0);
-		}
-	}
-	return (1);
+	return (check_all_cells(game, reachable));
 }

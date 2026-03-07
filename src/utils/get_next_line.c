@@ -12,7 +12,7 @@
 
 #include "../includes/cub3d.h"
 
-char	*parse(char *s, char c)
+static char	*parse(char *s, char c)
 {
 	char	*str;
 	int		i;
@@ -38,7 +38,7 @@ char	*parse(char *s, char c)
 	return (str);
 }
 
-char	*new_line(char *s, char c)
+static char	*new_line(char *s, char c)
 {
 	char	*str;
 	int		i;
@@ -66,10 +66,9 @@ char	*new_line(char *s, char c)
 	return (str);
 }
 
-char	*next_line(int fd, char *s)
+static char	*next_line(int fd, char *s, int i)
 {
 	char	*str;
-	int		i;
 	char	*tmp;
 
 	str = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
@@ -103,7 +102,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = next_line(fd, line);
+	line = next_line(fd, line, 0);
 	if (line)
 	{
 		str = new_line(line, '\n');
