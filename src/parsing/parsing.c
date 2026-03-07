@@ -55,6 +55,9 @@ char	**read_file(t_game *game, char *filename)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
+		int len = ft_strlen(line);
+		if (len > 0 && line[len - 1] == '\n')
+			line[len - 1] = '\0';
 		lines[count++] = gc_track(&game->gc, line);
 		line = get_next_line(fd);
 	}

@@ -70,21 +70,27 @@ char	*next_line(int fd, char *s)
 {
 	char	*str;
 	int		i;
+	char	*tmp;
 
 	str = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!str)
 		return (NULL);
+	if (!s)
+		s = ft_strdup("");
 	i = 1;
-	while (!ft_strchr(s, '\n') && i != 0)
+	while (s && !ft_strchr(s, '\n') && i != 0)
 	{
 		i = read(fd, str, BUFFER_SIZE);
 		if (i == -1)
 		{
 			free(str);
+			free(s);
 			return (NULL);
 		}
 		str[i] = '\0';
-		s = ft_strjoin(s, str);
+		tmp = s;
+		s = ft_strjoin(tmp, str);
+		free(tmp);
 	}
 	free(str);
 	return (s);
