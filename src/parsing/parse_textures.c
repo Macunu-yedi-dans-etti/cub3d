@@ -97,7 +97,10 @@ static int	assign_metadata(t_game *game, char *line, int *count)
 		return (assign_textures(game, tmp, count));
 	if (!ft_strncmp(tmp, "F ", 2) || !ft_strncmp(tmp, "C ", 2))
 		return (assign_fc(game, tmp, count));
-	printf(ERR_METADATA_INV, line);
+	if (is_map_line(line))
+		printf(ERR_METADATA_MISSING);
+	else
+		printf(ERR_METADATA_INV, line);
 	return (0);
 }
 

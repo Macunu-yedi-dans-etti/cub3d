@@ -44,7 +44,10 @@ char	**read_file(t_game *game, char *filename)
 
 	line_count = get_line_count(filename);
 	if (line_count <= 0)
+	{
+		printf(ERR_MAP_EMPTY);
 		return (NULL);
+	}
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
