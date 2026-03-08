@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:27:39 by haloztur          #+#    #+#             */
-/*   Updated: 2026/03/07 16:45:00 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/08 15:32:43 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ static int	assign_metadata(t_game *game, char *line, int *count)
 	tmp = line;
 	while (*tmp == ' ')
 		tmp++;
+	if (*tmp == '\t' && printf(ERR_MAP_TAB))
+		return (0);
 	if (!*tmp)
 		return (1);
 	if (!ft_strncmp(tmp, "NO ", 3) || !ft_strncmp(tmp, "SO ", 3)

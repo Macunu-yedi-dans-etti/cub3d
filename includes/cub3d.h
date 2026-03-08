@@ -6,7 +6,7 @@
 /*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
-/*   Updated: 2026/03/02 17:34:59 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/08 16:21:16 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@
 # define ERR_FILE_EXTENSION "Error\nFile must have .cub extension\n"
 # define ERR_MAP_INVALID "Error\nInvalid map\n"
 # define ERR_MAP_NOT_CLOSED "Error\nMap not surrounded by walls\n"
-# define ERR_MAP_DISCONNECTED "Error\nDisconnected map areas found\n"
-# define ERR_MAP_TAB "Error\nMap must not contain tab characters\n"
+# define ERR_MAP_TAB "Error\nTab characters are not allowed in the file\n"
 # define ERR_MAP_EMPTY "Error\nEmpty map\n"
 # define ERR_MAP_LAST "Error\nMap is not the last element or multiple maps detected.\n"
 # define ERR_MAP_FORBIDDEN "Error\nInvalid character(s) in map line: %s\n"
