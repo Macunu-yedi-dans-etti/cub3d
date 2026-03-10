@@ -1,14 +1,8 @@
 NAME = cub3D
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
-# Platform-specific MLX link flags
-UNAME_S := $(shell uname -s)
-ifeq ($(UNAME_S), Darwin)
-MLX_FLAGS = -L/usr/X11/lib -lXext -lX11 -lm -lmlx -framework OpenGL -framework AppKit
-else
+CFLAGS = -Wall -Wextra -Werror
 MLX_FLAGS = -lm -lmlx -lXext -lX11
-endif
 
 LIBFT_PATH = includes/libft/
 MLX_PATH = minilibx-linux/
@@ -51,7 +45,4 @@ fclean: clean
 
 re: fclean all
 
-valgrind: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) maps/good/creepy.cub
-
-.PHONY: all clean fclean re valgrind
+.PHONY: all clean fclean re 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
-/*   Updated: 2026/03/10 14:11:12 by haloztur         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:47:17 by musoysal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,11 @@
 # define ERR_MAP_NOT_CLOSED "Error\nMap not surrounded by walls\n"
 # define ERR_MAP_TAB "Error\nTab characters are not allowed in the file\n"
 # define ERR_MAP_EMPTY "Error\nEmpty map\n"
-# define ERR_MAP_LAST "Error\nMap is not the last element or multiple maps detected.\n"
+# define ERR_MAP_LAST \
+	"Error\nMap is not the last element or multiple maps detected.\n"
 # define ERR_MAP_FORBIDDEN "Error\nInvalid character(s) in map line: %s\n"
-# define ERR_MAP_BEFORE "Error\nUnexpected line or character before map block.\n"
+# define ERR_MAP_BEFORE \
+	"Error\nUnexpected line or character before map block.\n"
 # define ERR_PLAYER_MISSING "Error\nNo player found\n"
 # define ERR_PLAYER_MULTIPLE "Error\nMultiple players found\n"
 # define ERR_COLOR_INVALID "Error\nInvalid color format\n"
