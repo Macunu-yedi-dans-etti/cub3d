@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
-/*   Updated: 2026/03/08 16:21:16 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/10 14:11:12 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,7 @@ void	raycast(t_game *game);
 void	init_ray(t_game *game, t_ray *ray, int x);
 void	perform_dda(t_game *game, t_ray *ray);
 void	calculate_wall_height(t_game *game, t_ray *ray);
+void	draw_walls(t_game *game, t_ray *ray, int x);
 void	put_pixel(t_game *game, int x, int y, int color);
 
 int		handle_key_press(int keycode, t_game *game);
@@ -233,6 +234,9 @@ int		handle_key_release(int keycode, t_game *game);
 void	handle_movement(t_game *game);
 void	move_player(t_game *game, double move_x, double move_y);
 void	rotate_player(t_game *game, double angle);
+int		is_valid_position(t_game *game, double x, double y, double margin);
+int		is_wall_at(t_game *game, double x, double y);
+int		check_collision(t_game *game, double x, double y, double margin);
 int		close_window(t_game *game);
 
 void	error_exit(t_game *game, char *message);

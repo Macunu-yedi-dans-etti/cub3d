@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 15:30:00 by musoysal          #+#    #+#             */
-/*   Updated: 2026/03/01 12:58:36 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/10 14:01:25 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,17 @@ void	move_player(t_game *game, double move_x, double move_y)
 {
 	double	new_x;
 	double	new_y;
-	double	collision_margin;
+	double	margin;
 
-	collision_margin = 0.2;
+	margin = 0.2;
 	new_x = game->player.x + move_x;
 	new_y = game->player.y + move_y;
-	if (new_x - collision_margin >= 0 && new_x + collision_margin < game->map.width
-		&& new_y - collision_margin >= 0 && new_y + collision_margin < game->map.height)
+	if (!is_valid_position(game, new_x, new_y, margin))
+		return ;
+	if (!check_collision(game, new_x, new_y, margin))
 	{
-		if (game->map.grid[(int)(new_y - collision_margin)][(int)(new_x - collision_margin)] != '1'
-			&& game->map.grid[(int)(new_y + collision_margin)][(int)(new_x - collision_margin)] != '1'
-			&& game->map.grid[(int)(new_y - collision_margin)][(int)(new_x + collision_margin)] != '1'
-			&& game->map.grid[(int)(new_y + collision_margin)][(int)(new_x + collision_margin)] != '1')
-		{
-			game->player.x = new_x;
-			game->player.y = new_y;
-		}
+		game->player.x = new_x;
+		game->player.y = new_y;
 	}
 }
 
