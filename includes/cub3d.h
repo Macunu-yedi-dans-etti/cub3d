@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musoysal <musoysal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haloztur <haloztur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:15:00 by haloztur          #+#    #+#             */
-/*   Updated: 2026/03/10 15:47:17 by musoysal         ###   ########.fr       */
+/*   Updated: 2026/03/13 14:08:32 by haloztur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,6 @@
 # define MOVE_SPEED 0.08
 # define ROT_SPEED 0.07
 
-//# define KEY_ESC 53
-//# define KEY_W 13
-//# define KEY_A 0
-//# define KEY_S 1
-//# define KEY_D 2
-//# define KEY_LEFT 124
-//# define KEY_RIGHT 123
-
 # define KEY_ESC 65307
 # define KEY_W 119
 # define KEY_A 97
@@ -49,17 +41,9 @@
 # define KEY_LEFT 65363
 # define KEY_RIGHT 65361
 
-# define WALL '1'
-# define EMPTY '0'
-# define PLAYER_N 'N'
-# define PLAYER_S 'S'
-# define PLAYER_E 'E'
-# define PLAYER_W 'W'
-
 # define ERR_USAGE "Error\nUsage: ./cub3D <map.cub>\n"
 # define ERR_FILE "Error\nCannot open file\n"
 # define ERR_FILE_EXTENSION "Error\nFile must have .cub extension\n"
-# define ERR_MAP_INVALID "Error\nInvalid map\n"
 # define ERR_MAP_NOT_CLOSED "Error\nMap not surrounded by walls\n"
 # define ERR_MAP_TAB "Error\nTab characters are not allowed in the file\n"
 # define ERR_MAP_EMPTY "Error\nEmpty map\n"
@@ -71,7 +55,6 @@
 # define ERR_PLAYER_MISSING "Error\nNo player found\n"
 # define ERR_PLAYER_MULTIPLE "Error\nMultiple players found\n"
 # define ERR_COLOR_INVALID "Error\nInvalid color format\n"
-# define ERR_COLOR_MISSING "Error\nFloor and ceiling color missing or invalid\n"
 # define ERR_COLOR_RANGE "Error\nColor values must be 0-255\n"
 # define ERR_FLOOR_DUP "Error\nDuplicate floor color\n"
 # define ERR_CEILING_DUP "Error\nDuplicate ceiling color\n"
