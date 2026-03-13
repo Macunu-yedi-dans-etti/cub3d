@@ -2,13 +2,13 @@
 
 ## Description
 
-cub3d is a raycasting engine inspired by Wolfenstein 3D. The goal is to render a 3D perspective view from a 2D map using the DDA (Digital Differential Analyzer) raycasting algorithm.
+cub3d is a raycasting engine. The goal is to render a 3D perspective view from a 2D map using the DDA (Digital Differential Analyzer) raycasting algorithm.
 
 The project consists of:
 
 - **Parser**: Reads `.cub` configuration files containing texture paths (NO, SO, EA, WE), floor and ceiling colors (F, C), and a 2D map grid
 - **Raycasting**: DDA algorithm to cast rays and compute wall distances
-- **Rendering**: MinilibX-based graphics with texture mapping and floor/ceiling colors
+- **Rendering**: [MinilibX-based](https://harm-smits.github.io/42docs/libs/minilibx) graphics with texture mapping and floor/ceiling colors
 - **Gameplay**: Player movement (W/A/S/D) and rotation (arrow keys), ESC to quit
 
 ## Instructions
@@ -61,15 +61,37 @@ The program expects a single argument: a valid `.cub` file path.
 | `make clean` | Remove object files |
 | `make fclean` | Remove objects and executable |
 | `make re` | Clean and rebuild |
-| `make valgrind` | Run with Valgrind (example map) |
 
 ### Map Format
 
-The `.cub` file must include:
+The `.cub` file must include textures, colors, and the map layout. Here is an example of a valid configuration:
 
-- **Textures**: `NO`, `SO`, `EA`, `WE` (north, south, east, west wall paths)
-- **Colors**: `F` (floor) and `C` (ceiling) in RGB format: `F R,G,B` and `C R,G,B` (0-255 per channel)
-- **Map**: Grid of `0` (empty), `1` (wall), and `N`/`S`/`E`/`W` (player spawn and direction)
+```bash
+NO textures/wolfenstein/grey_stone.xpm
+SO textures/wolfenstein/purple_stone.xpm
+WE textures/wolfenstein/red_brick.xpm
+EA textures/wolfenstein/wood.xpm
+
+F 220,100,0
+C 225,30,0
+
+        1111111111111111111111111
+        1000000000110000000000001
+        1011000001110000000000001
+        1001000000000000000000001
+111111111011000001110000000000001
+100000000011000001110111111111111
+11110111111111011100000010001
+11110111111111011101010010001
+11000000110101011100000010001
+10000000000000001100000010001
+10000000000000001101010010001
+11000001110101011111011110N0111
+11110111 1110101  101111010001
+11111111 1111111 111111111111
+```
+
+The map can contain spaces, but it must be surrounded by walls (`1`). The player starting position is indicated by `N`, `S`, `E`, or `W`.
 
 ## Resources
 
@@ -77,8 +99,7 @@ The `.cub` file must include:
 
 - [Lodev Raycasting Tutorial](https://lodev.org/cgtutor/raycasting.html)
 - [MinilibX documentation](https://harm-smits.github.io/42docs/libs/minilibx)
-- Wolfenstein 3D (id Software)
 
 ### AI Usage
 
-AI usage: [Specify which tasks and parts of the project involved AI assistance.]
+AI was used primarily for research purposes, helping to understand the DDA algorithm, exploring raycasting concepts, and finding solutions to specific technical challenges during development.
